@@ -13,6 +13,7 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URISyntaxException;
 
 
@@ -25,49 +26,52 @@ public class Main {
         Account account = new Account();
         TopicDevices topicDevices = new TopicDevices();
         topicDevices.createHashMap();
-        //EchonetLiteController echonetLiteController = new EchonetLiteController(topicDevices);
-//        mqttCon1 = new MqttConnectionNew("airconditioner.cloud.shiftr.io");
-//        String password = "long8520";
-//        MqttConnectOptions optionsConnect = new MqttConnectOptions();
-//        optionsConnect.setUserName("airconditioner");
-//        optionsConnect.setPassword(password.toCharArray());
-//        optionsConnect.setAutomaticReconnect(true);
-//        optionsConnect.setCleanSession(true);
-//        mqttCon1.Connect(optionsConnect);
-//          EchonetLiteControllerNew object_airConditioner = new EchonetLiteControllerNew();
-//        mqttCon1.Subcribe("home/room_01/air-conditioner");
-//        mqttCon1.PublishMessage("From IoT Platform", "home/room_01/air-conditioner");
-//        mqttCon1.mMqttClient.setCallback(new MqttCallbackExtended(){
-//            @Override
-//            public void connectComplete(boolean reconnect, String serverURI) {
-//                System.out.println("Connection " + reconnect + "; server " + serverURI);
-//            }
-//
-//            @Override
-//            public void connectionLost(Throwable throwable) {
-//                System.out.println("MQTT publisher error: Lost MQTT Connection" + throwable.getMessage());
-//				/*System.out.println("Reconn...");
-//				mqttCon1.Connect(optionsConnect);*/
-//            }
-//
-//            @Override
-//            public void messageArrived(String topic, MqttMessage message) throws Exception {
-//                //System.out.println("message is "+ message);
-//                System.out.println("Message : " + message.toString());
-//                if(object_airConditioner.airConditioner.size() != 0){
-//                    for(DeviceObject dev : object_airConditioner.airConditioner){
-//                        if (message.toString() == "27"){
-//                            dev.set().reqSetOperationStatus(new byte[]{0x30});
-//                            //dev.set().reqSetProperty()
-//                        }
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-//
-//            }
-//        });
+//      EchonetLiteController echonetLiteController = new EchonetLiteController(topicDevices);
+        mqttCon1 = new MqttConnectionNew("airconditioner.cloud.shiftr.io");
+        String password = "long8520";
+        MqttConnectOptions optionsConnect = new MqttConnectOptions();
+        optionsConnect.setUserName("airconditioner");
+        optionsConnect.setPassword(password.toCharArray());
+        optionsConnect.setAutomaticReconnect(true);
+        optionsConnect.setCleanSession(true);
+        mqttCon1.Connect(optionsConnect);
+        EchonetLiteControllerNew object_airConditioner = new EchonetLiteControllerNew();
+        mqttCon1.Subcribe("home/room_01/air-conditioner");
+        mqttCon1.PublishMessage("From IoT Platform", "home/room_01/air-conditioner");
+        mqttCon1.mMqttClient.setCallback(new MqttCallbackExtended(){
+            @Override
+            public void connectComplete(boolean reconnect, String serverURI) {
+                System.out.println("Connection " + reconnect + "; server " + serverURI);
+            }
+
+            @Override
+            public void connectionLost(Throwable throwable) {
+                System.out.println("MQTT publisher error: Lost MQTT Connection" + throwable.getMessage());
+				/*System.out.println("Reconn...");
+				mqttCon1.Connect(optionsConnect);*/
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
+                //System.out.println("message is "+ message);
+                System.out.println("Message hehe : " + message.toString());
+                if(object_airConditioner.airConditioner.size() != 0){
+                    for(DeviceObject dev : object_airConditioner.airConditioner){
+                        if (message.toString() == "27"){
+                            dev.set().reqSetOperationStatus(new byte[]{0x30});
+                            byte epcByte = Integer.valueOf(0xB3).byteValue();
+                            byte[] edtByteArr = BigInteger.valueOf(0x32).toByteArray();
+                            dev.set().reqSetProperty(epcByte, edtByteArr);
+                            dev.get().reqGetProperty(epcByte);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+
+            }
+        });
     }
 }

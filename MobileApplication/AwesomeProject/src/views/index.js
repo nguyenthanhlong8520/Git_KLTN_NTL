@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler'
 import react, {Component, useContext} from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import {
@@ -11,16 +12,15 @@ import Login from './login'
 import ControlDetails from './ControlDetails'
 import SignUpScreen from "./Signup";
 import HomeScreen from "./HomeScreen";
-import Setting from "./setting";
+import setting from "./setting";
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthContext } from "../context/AuthContext";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import setting from "./setting";
 
 const Stack = createNativeStackNavigator();
-
 const Tab = createBottomTabNavigator();
+
 
 function Tabs(){
     return (
@@ -89,31 +89,24 @@ function Tabs(){
 export default RootComponent = function() {
     const {userInfo} = useContext(AuthContext);
     return(
-             //<Login/>
-             //<Home/>
-             //{userInfor.username ? '' : ''}
             <NavigationContainer>
                  {/* Rest of your app code */}
                  <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
-                     {/* {userInfo.status == "true" ?( 
-                     <Stack.Screen name="HomeScreen" component={HomeScreen} />
-                     ):(
-                     <>
-                     <Stack.Screen name="Login" component={Login} />
-                     <Stack.Screen name="Home" component={Home} />
-                     <Stack.Screen name="SignUpScreen" component={SignUpScreen}/>
-                     <Stack.Screen name="Setting" component={Setting} />
+                    {userInfo.token ? ( 
+                    <>
+                        <Stack.Screen name="HomeTabs" component={Tabs} />
+                        <Stack.Screen name="Home Screen" component={HomeScreen} />
+                        <Stack.Screen name="Control Details" component={ControlDetails} />
+                        <Stack.Screen name="Setting schedule" component={setting} />
                     </>
-                     )} */}
-                     {/* <Tabs/> */}
-                    <Stack.Screen name="Login" component={Login} />
-                    <Stack.Screen name="SignUpScreen" component={SignUpScreen}/>
-                    <Stack.Screen name="HomeTabs" component={Tabs} />
+                    ):(
+                    <>
+                        <Stack.Screen name="Login" component={Login} />
+                        <Stack.Screen name="SignUpScreen" component={SignUpScreen}/>
+                        {/* <Stack.Screen name="HomeTabs" component={Tabs} /> */}
+                    </>
+                    )}
 
-                    {/* <Stack.Screen name="HomeScreen" component={HomeScreen} />
-                    <Stack.Screen name="ControlDetails" component={ControlDetails} />
-                    <Stack.Screen name="SignUpScreen" component={SignUpScreen}/>
-                    <Stack.Screen name="Setting" component={Setting} /> */}
 
                 </Stack.Navigator>
             </NavigationContainer>

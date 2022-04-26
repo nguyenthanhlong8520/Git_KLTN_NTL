@@ -25,7 +25,7 @@ const db = mysql.createConnection({
     user:'root',
     port:3306,
     password:'long8520',
-    database:'testdb'
+    database:'smart_home'
 });
 
 db.connect(function(err) {
@@ -36,7 +36,7 @@ db.connect(function(err) {
 app.post('/logout', (req, res) => {
     var email = req.body.email;
     var password = req.body.password;
-    var sql = 'SELECT * FROM student WHERE email = ? AND password = ?';
+    var sql = 'SELECT * FROM accounts WHERE email = ? AND password = ?';
     db.query(sql, [email, password], function (err, result) {
         var data =  JSON.parse(JSON.stringify(result));
         if(data[0] != null){
@@ -57,7 +57,7 @@ app.post('/logout', (req, res) => {
 });
 
 app.post('/temp', (req, res) => {
-    var sql = 'SELECT * FROM status';
+    var sql = 'SELECT * FROM air_conditioner_data';
     console.log(req.body);
     db.query(sql,function (err, result) {
         var data =  JSON.parse(JSON.stringify(result));
@@ -84,33 +84,33 @@ app.post('/temp', (req, res) => {
     });
 });
 
-app.post('/temp_', (req, res) => {
-    var sql = 'SELECT * FROM status';
-    console.log(req.body);
-    db.query(sql,function (err, result) {
-        var data =  JSON.parse(JSON.stringify(result));
-        var status = data[0].status;
-        console.log(status);
-        if (status == "OFF"){
-            var sql = "UPDATE status SET status ='ON'";
-            db.query(sql, function (err, result) {
-                console.log("OFF -> ON");
-                res.send( JSON.stringify({
-                    status:'ON', 
-                }));
-            });
-        }
-        else{
-            var sql = "UPDATE status SET status ='OFF'";
-            db.query(sql, function (err, result) {
-                console.log("ON ->> OFF");
-                res.send( JSON.stringify({
-                    status:'OFF', 
-                }));
-            });
-        }
-    });
-});
+// app.post('/temp_', (req, res) => {
+//     var sql = 'SELECT * FROM status';
+//     console.log(req.body);
+//     db.query(sql,function (err, result) {
+//         var data =  JSON.parse(JSON.stringify(result));
+//         var status = data[0].status;
+//         console.log(status);
+//         if (status == "OFF"){
+//             var sql = "UPDATE status SET status ='ON'";
+//             db.query(sql, function (err, result) {
+//                 console.log("OFF -> ON");
+//                 res.send( JSON.stringify({
+//                     status:'ON', 
+//                 }));
+//             });
+//         }
+//         else{
+//             var sql = "UPDATE status SET status ='OFF'";
+//             db.query(sql, function (err, result) {
+//                 console.log("ON ->> OFF");
+//                 res.send( JSON.stringify({
+//                     status:'OFF', 
+//                 }));
+//             });
+//         }
+//     });
+// });
 
 app.post('/status', (req, res) => {
     var sql = 'SELECT * FROM status';
@@ -143,7 +143,7 @@ app.post('/status', (req, res) => {
 app.post('/login', (req, res) => {
     var email = req.body.email;
     var password = req.body.password;
-    var sql = 'SELECT * FROM student WHERE email = ? AND password = ?';
+    var sql = 'SELECT * FROM accounts WHERE email = ? AND password = ?';
     db.query(sql, [email, password], function (err, result) {
         var data =  JSON.parse(JSON.stringify(result));
         if(data[0] != null){
@@ -164,7 +164,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.post('/data', (req, res) => {
+app.post('/signup', (req, res) => {
     console.log(req.body);
     var data = {email: req.body.email, password:req.body.password};
     var sql = 'insert into student SET ?';

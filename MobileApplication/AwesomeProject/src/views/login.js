@@ -78,18 +78,12 @@ export default Login = ({ navigation }) => {
                         <View style={{height: '23%', width: '100%', marginTop: 0.01*windowHeight, justifyContent: 'center', alignItems: 'center' }}>
                         <TouchableOpacity style={{height: '80%', width: '30%', marginTop: 7, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
                                         onPress = {() => {
-                                            //login(email, password)
-                                            navigation.navigate('HomeTabs');
+                                            login(email, password);
+                                            //navigation.navigate('HomeTabs');
                                         }}
                                         >
                                         <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin"}}>Login</Text>
                         </TouchableOpacity> 
-                         {/* <Button
-                            title="Login"
-                            onPress={() => {
-                                login(email, password);
-                            }}
-                        /> */}
                         </View>
                     </View>
                     <View

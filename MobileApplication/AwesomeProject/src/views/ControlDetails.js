@@ -26,7 +26,9 @@ export default ControlDetails = ({ navigation }) => {
 
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const {isLoading, login} = useContext(AuthContext);
+    const {logout} = useContext(AuthContext);
+    const {userInfo} = useContext(AuthContext);
+
 
     return (
         <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../img/bgs.jpg')} resizeMode='stretch'>
@@ -86,7 +88,7 @@ export default ControlDetails = ({ navigation }) => {
                         <View style={STYLES.btnSecondary}>
                         <TouchableOpacity
                         onPress = {() => {
-                            navigation.navigate('Login');
+                            logout();
                         }}
                         >
                         <Text style={{fontSize: 16,  fontFamily:"Cochin", fontWeight: 'bold'}}>Logout</Text>
@@ -109,7 +111,7 @@ export default ControlDetails = ({ navigation }) => {
                         <View style={STYLES.btnSecondary}>
                         <TouchableOpacity
                         onPress = {() => {
-                            //navigation.navigate('Login');
+                            // navigation.navigate('Login');
                         }}
                         >
                         <Text style={{fontSize: 16,  fontFamily:"Cochin", fontWeight: 'bold'}}>Confirm</Text>

@@ -1,5 +1,4 @@
 import react, {Component, useState, useContext} from "react";
-
 import {
     SafeAreaView,
     View,
@@ -27,46 +26,62 @@ const windowHeight = Dimensions.get('window').height;
 
 
 export default HomeScreen = ({ navigation }) => {
-    const {changeStatus} = useContext(AuthContext);
     const [status, setStatus] = useState('OFF');
-    const [temp, setTemp] = useState('20');
+    const [temp, setTemp] = useState('12');
+    const [mode, setMode] = useState('AUTO');
 
-    const change = () => {
+
+    const changeStatus = () => {
         axios
-        .post(`${BASE_URL}/status`)
+        .post(`${BASE_URL}/remote/changeStatus`)
         .then(res => {
+          console.log(res.data);
           var data =  JSON.parse(JSON.stringify(res.data));
-          var status = data['status'];
-          console.log(status);
-          setStatus(status)
+          //var temp = res.data[0].temperature_value;
+          //console.log(data.temperature_value);
+          setStatus(data['operation_status']);
+          setTemp(data['temperature_value']);
         })
         .catch(e => {
           console.log(`login error ${e}`);
         }); 
     };
 
-    const changeTemperature = () => {
+    const increaseTemp = () => {
         axios
-        .post(`${BASE_URL}/status`)
+        .post(`${BASE_URL}/remote/increaseTemp`)
         .then(res => {
           var data =  JSON.parse(JSON.stringify(res.data));
-          var temp = data['temp'];
-          console.log(temp);
-          setStatus(temp)
+          var temp_value = data['temp_value'];
+          setTemp(temp_value)
         })
         .catch(e => {
           console.log(`login error ${e}`);
         }); 
     };
 
-    const changeTemperature_ = () => {
+    const decreaseTemp = () => {
         axios
-        .post(`${BASE_URL}/status`)
+        .post(`${BASE_URL}/remote/decreaseTemp`)
         .then(res => {
+          console.log(res.data);
           var data =  JSON.parse(JSON.stringify(res.data));
-          var temp = data['temp'];
-          console.log(temp);
-          setStatus(temp)
+          var temp_value = data['temp_value'];
+          setTemp(temp_value)
+        })
+        .catch(e => {
+          console.log(`login error ${e}`);
+        }); 
+    };
+
+    const changeMode = () => {
+        axios
+        .post(`${BASE_URL}/remote/changeMode`)
+        .then(res => {
+          console.log(res.data);
+          var data =  JSON.parse(JSON.stringify(res.data));
+          var mode = data['operation_mode'];
+          setMode(mode)
         })
         .catch(e => {
           console.log(`login error ${e}`);
@@ -105,7 +120,7 @@ export default HomeScreen = ({ navigation }) => {
                             <Text style={{color: 'black', fontWeight: 'bold', fontSize:18,  marginLeft:100}}>{status}</Text>
                             <TouchableOpacity style={{height: '190%', width: '24%', marginTop: 0, marginLeft:77, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
                                         onPress = {() => {
-                                            change();
+                                            changeStatus();
                                         }}
                                         >
                                         <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin"}}>ON/OFF</Text>
@@ -116,18 +131,16 @@ export default HomeScreen = ({ navigation }) => {
                         <View style={{ width:'75%', height:20, flexDirection: 'row', marginTop:30}}>
                             <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginRight:12, marginLeft:-32}}>Temperature</Text>
                             <Text style={{color: 'black', fontWeight: 'bold', fontSize:18,  marginLeft:50}}>{temp} °C</Text>
-                            <TouchableOpacity style={{height: '190%', width: '14%', marginTop: 0, marginRight:4, marginLeft:55, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
+                            <TouchableOpacity style={{height: '190%', width: '14%', marginTop: 0, marginRight:10, marginLeft:55, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
                                         onPress = {() => {
-                                            // -
-                                            changeTemperature();
+                                            increaseTemp();
                                         }}
                                         >
                                         <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin"}}>+</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={{height: '190%', width: '14%',alignItems: 'center', justifyContent: 'center', borderWidth:1}}
                                         onPress = {() => {
-                                            // -
-                                            changeTemperature_();
+                                            decreaseTemp();
                                         }}
                                         >
                                         <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin", marginBottom:1}}>-</Text>
@@ -136,10 +149,10 @@ export default HomeScreen = ({ navigation }) => {
                         {/*Mode*/}
                         <View style={{ width:'75%', height:20, flexDirection: 'row', marginTop:30}}>
                             <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:-9}}>Mode</Text>
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:100}}>Auto</Text>
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:100}}>{mode}</Text>
                             <TouchableOpacity style={{height: '190%', width: '34%', marginTop: 0, marginLeft:55, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
                                         onPress = {() => {
-                                            //login(email, password)
+                                            changeMode();
                                         }}
                                         >
                                         <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin"}}>Change Mode</Text>
