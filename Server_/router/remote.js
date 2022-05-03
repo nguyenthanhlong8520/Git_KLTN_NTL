@@ -90,6 +90,11 @@ router.post('/changeMode', (req, res) => {
                     operation_mode:'COOL'
                 }));
             });
+            client.publish(topic, 'COOL', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
         }
         else if (operation_mode == "COOL"){
             var sql = "UPDATE air_conditioner_data SET operation_mode ='DRY'";
@@ -99,6 +104,11 @@ router.post('/changeMode', (req, res) => {
                     operation_mode: 'DRY'
                 }));
             });
+            client.publish(topic, 'DRY', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
         }
         else if (operation_mode == "DRY"){
             var sql = "UPDATE air_conditioner_data SET operation_mode ='AUTO'";
@@ -108,6 +118,11 @@ router.post('/changeMode', (req, res) => {
                     operation_mode: 'AUTO'
                 }));
             });
+            client.publish(topic, 'AUTO', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
         }
     });
 })
@@ -118,23 +133,20 @@ router.post('/increaseTemp', (req, res) => {
         var data =  JSON.parse(JSON.stringify(result));
         var temp_value = data[0].temperature_value + 1;
         var sql = "UPDATE air_conditioner_data SET temperature_value = ?";
+        var message_mqtt = String(temp_value);
         connection.query(sql, temp_value, function (err, result) {});
 
         res.send(JSON.stringify({
             temp_value: temp_value, 
         }));
 
-    });
+        client.publish(topic, message_mqtt, { qos: 0, retain: false }, (error) => {
+            if (error) {
+              console.error(error)
+            }
+        })
 
-    // var sql = 'SELECT * FROM air_conditioner_data';
-    // connection.query(sql,function (err, result) {
-    //     var data =  JSON.parse(JSON.stringify(result));
-    //     console.log(data);
-    //     var temp_value = data[0].temperature_value;
-    //     res.send( JSON.stringify({
-    //         temp_value:temp_value, 
-    //     }));
-    // });
+    });
 })
 
 router.post('/decreaseTemp', (req, res) => {
@@ -143,10 +155,17 @@ router.post('/decreaseTemp', (req, res) => {
         var data =  JSON.parse(JSON.stringify(result));
         var temp_value = data[0].temperature_value - 1;
         var sql = "UPDATE air_conditioner_data SET temperature_value = ?";
+        var message_mqtt = String(temp_value);
         connection.query(sql, temp_value, function (err, result) {});
         res.send(JSON.stringify({
             temp_value: temp_value, 
         }));
+
+        client.publish(topic, message_mqtt, { qos: 0, retain: false }, (error) => {
+            if (error) {
+              console.error(error)
+            }
+        })
     });
 })
 
