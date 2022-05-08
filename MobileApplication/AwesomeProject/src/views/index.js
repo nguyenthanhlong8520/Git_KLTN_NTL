@@ -9,10 +9,14 @@ import {
 } from 'react-native'
 
 import Login from './login'
-import ControlDetails from './ControlDetails'
 import SignUpScreen from "./Signup";
 import HomeScreen from "./HomeScreen";
 import setting from "./setting";
+import home_menu from './menu/home_menu';
+import Room1 from './rooms/room1'
+import Room2 from './rooms/room2'
+import Room3 from './rooms/room3'
+import Room4 from './rooms/room4'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthContext } from "../context/AuthContext";
@@ -40,7 +44,21 @@ function Tabs(){
                 headerShown: false
             }} 
          >
-            <Tab.Screen name = "Home Screen" component={HomeScreen} 
+             <Tab.Screen name="HomeMenu" component={home_menu} 
+                 options={{
+                    tabBarIcon: ({focused}) => (
+                        <View style={{alignItems: 'center', justifyContent: 'center', top: 7}}>
+                            <Image 
+                                 source={require('../img/iconHome.png')}
+                                style={{
+                                    
+                                }}
+                            />
+                        </View>
+                    ),
+                }}
+            />
+            {/* <Tab.Screen name = "ControlAir" component={HomeScreen} 
                 options={{
                     tabBarIcon: ({focused}) => (
                         <View style={{alignItems: 'center', justifyContent: 'center', top: 7}}>
@@ -52,9 +70,9 @@ function Tabs(){
                             />
                         </View>
                     ),
-                }}/>
+                }}/> */}
 
-            <Tab.Screen name="Control Details" component={ControlDetails} 
+            {/* <Tab.Screen name="Control Details" component={ControlDetails} 
                  options={{
                     tabBarIcon: ({focused}) => (
                         <View style={{alignItems: 'center', justifyContent: 'center', top: 7}}>
@@ -67,8 +85,9 @@ function Tabs(){
                         </View>
                     ),
                 }}
-            />
-            <Tab.Screen name="Setting Schedule" component={setting} 
+            /> */}
+
+            <Tab.Screen name="Weather" component={setting} 
                  options={{
                     tabBarIcon: ({focused}) => (
                         <View style={{alignItems: 'center', justifyContent: 'center', top: 7}}>
@@ -95,20 +114,17 @@ export default RootComponent = function() {
                     {userInfo.token ? ( 
                     <>
                         <Stack.Screen name="HomeTabs" component={Tabs} />
-                        <Stack.Screen name="Home Screen" component={HomeScreen} />
-                        <Stack.Screen name="Control Details" component={ControlDetails} />
-                        <Stack.Screen name="Setting schedule" component={setting} />
+                        <Stack.Screen name="Room1" component={Room1} />
+                        <Stack.Screen name="ControlAir" component={HomeScreen} />
                     </>
                     ):(
                     <>
                         <Stack.Screen name="Login" component={Login} />
                         <Stack.Screen name="SignUpScreen" component={SignUpScreen}/>
-                        {/* <Stack.Screen name="HomeTabs" component={Tabs} /> */}
                     </>
                     )}
-
-
                 </Stack.Navigator>
             </NavigationContainer>
+            
     )
 }

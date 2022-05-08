@@ -7,6 +7,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children, navigation}) => {
     const [userInfo, setUserInfo] = useState({});
+    const [userName, setUserName] = useState("None");
     const [isLoading, setIsLoading] = useState(false);
 
     const register = (email, password) => {
@@ -37,8 +38,9 @@ export const AuthProvider = ({children, navigation}) => {
           })
           .then(res => {
             let userInfo = res.data;
-            console.log(userInfo);
-            // console.log(userInfo.result[0].email);
+            setUserName(userInfo.result[0].email);
+            // console.log(userInfo);
+            console.log(userName);
             setUserInfo(userInfo);
             AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
           })
@@ -70,7 +72,7 @@ export const AuthProvider = ({children, navigation}) => {
 
     return (
         <AuthContext.Provider value={{
-          register, isLoading, userInfo, login, logout}}
+          register, isLoading, userInfo, login, logout, userName}}
           
         >{children}  
         </AuthContext.Provider>

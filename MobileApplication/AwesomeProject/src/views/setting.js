@@ -12,22 +12,21 @@ import {
     Image, 
     Button
 } from 'react-native'
-import { AuthContext } from "../context/AuthContext";
-import Spinner from "react-native-loading-spinner-overlay/lib";
 
+import { AuthContext } from "../context/AuthContext";
 import COLORS from '../Style/Color';
 import STYLES from '../Style/Style';
+
+// import { createDrawerNavigator } from "@react-navigation/drawer";
+// import { createDrawerNavigator } from '@react-navigation/drawer';
+
+// const ax = createDrawerNavigator();
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default Setting = ({ navigation }) => {
-    const [getPasswordVisible, setPasswordVisible] = useState(false);
-
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
-    const {isLoading, login} = useContext(AuthContext);
-
+    const {logout} = useContext(AuthContext);
     return (
         <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../img/bgs.jpg')} resizeMode='stretch'>
             <StatusBar barStyle="light-content"/>
@@ -86,7 +85,8 @@ export default Setting = ({ navigation }) => {
                         <View style={STYLES.btnSecondary}>
                         <TouchableOpacity
                         onPress = {() => {
-                            navigation.navigate('Login');
+                            // navigation.navigate('Login');
+                            logout();
                         }}
                         >
                         <Text style={{fontSize: 16,  fontFamily:"Cochin", fontWeight: 'bold'}}>Logout</Text>

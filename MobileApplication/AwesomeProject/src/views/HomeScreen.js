@@ -20,16 +20,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import axios from "axios";
 import {BASE_URL} from '../config';
 
-
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
 
 export default HomeScreen = ({ navigation }) => {
     const [status, setStatus] = useState('OFF');
     const [temp, setTemp] = useState('12');
     const [mode, setMode] = useState('AUTO');
-
 
     const changeStatus = () => {
         axios
