@@ -95,17 +95,17 @@ public class EchonetLiteControllerNew {
                     }
                 });
                 try{
-                    //device.set().reqSetOperationStatus(new byte[]{0x30}).send();
+//                    device.set().reqSetOperationStatus(new byte[]{0x31}).send();
                     //HomeAirConditioner.setG().reqSetOperationStatus(new byte[]{0x30}).send();
                     //HomeAirConditioner.setG().reqSetSetTemperatureValue(new byte[]{0x17}).send();
-                    device.get().reqGetOperationStatus().send();
-                    device.get().reqGetMeasuredValueOfRoomTemperature().send();
-                    device.get().reqGetMeasuredValueOfCurrentConsumption().send();
-                    device.get().reqGetGetPropertyMap().send();
-                    device.get().reqGetRatedPowerConsumption().send();
+                      device.get().reqGetOperationStatus().send();
+//                    device.get().reqGetMeasuredValueOfRoomTemperature().send();
+//                    device.get().reqGetMeasuredValueOfCurrentConsumption().send();
+//                    device.get().reqGetGetPropertyMap().send();
+//                    device.get().reqGetRatedPowerConsumption().send();
                     //device.set().reqSetOperationStatus(new byte[]{0x30}).send();
                     //device.get().reqGetMeasuredValueOfRoomRelativeHumidity().send();
-                    device.set().reqSetSetTemperatureValue(new byte[]{0x17});
+//                    device.set().reqSetSetTemperatureValue(new byte[]{0x17});
                 }catch(Exception e){
                     System.out.println("Exception + " + e);
                 }
