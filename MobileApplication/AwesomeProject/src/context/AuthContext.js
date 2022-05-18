@@ -31,6 +31,7 @@ export const AuthProvider = ({children, navigation}) => {
       };
 
     const login = (email, password) => {
+        console.log("Clicked !!!")
         axios
           .post(`${BASE_URL}/account/login`, {
             email,

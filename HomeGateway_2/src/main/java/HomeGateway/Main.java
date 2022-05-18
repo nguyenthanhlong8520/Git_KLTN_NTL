@@ -28,7 +28,7 @@ public class Main {
         Account account = new Account();
         TopicDevices topicDevices = new TopicDevices();
         topicDevices.createHashMap();
-//        EchonetLiteController echonetLiteController = new EchonetLiteController(topicDevices);
+//      EchonetLiteController echonetLiteController = new EchonetLiteController(topicDevices);
         mqttCon1 = new MqttConnectionNew("airconditioner.cloud.shiftr.io");
         String password = "long8520";
         MqttConnectOptions optionsConnect = new MqttConnectOptions();
@@ -37,7 +37,7 @@ public class Main {
         optionsConnect.setAutomaticReconnect(true);
         optionsConnect.setCleanSession(true);
         mqttCon1.Connect(optionsConnect);
-          EchonetLiteControllerNew object_airConditioner = new EchonetLiteControllerNew();
+        EchonetLiteControllerNew object_airConditioner = new EchonetLiteControllerNew();
         mqttCon1.Subcribe("home/room_01/air-conditioner");
         mqttCon1.PublishMessage("From IoT Platform", "home/room_01/air-conditioner");
         mqttCon1.mMqttClient.setCallback(new MqttCallbackExtended(){
@@ -59,6 +59,19 @@ public class Main {
                 System.out.println("Message from Broker :" + message.toString());
                 if(object_airConditioner.airConditioner.size() != 0){
                     for(DeviceObject dev : object_airConditioner.airConditioner){
+                        //IF ELSE MAC ADDRES
+
+                        // LUONG GIO MANH
+                        byte A = Integer.valueOf(0xA0).byteValue();
+                        byte[] B = BigInteger.valueOf(0x31).toByteArray();
+                        dev.set().reqSetProperty(A, B).send();
+
+                        // direction swing
+                        byte c = Integer.valueOf(0xA3).byteValue();
+                        byte[] d = BigInteger.valueOf(0x43).toByteArray();
+                        dev.set().reqSetProperty(c, d).send();
+
+                        // status of air-conditioner
                         if (message.toString().equals("ON")){
                             dev.set().reqSetOperationStatus(new byte[]{0x30}).send();
                             System.out.println("Air conditioner is ON");
@@ -67,6 +80,7 @@ public class Main {
                             dev.set().reqSetOperationStatus(new byte[]{0x31}).send();
                             System.out.println("Air conditioner is OFF");
                         }
+                        // mode
                         else if (message.toString() == "AUTO"){
                             byte epcByte = Integer.valueOf(0xB0).byteValue();
                             byte[] edtByteArr = BigInteger.valueOf(0x41).toByteArray();
@@ -84,6 +98,25 @@ public class Main {
                             byte[] edtByteArr = BigInteger.valueOf(0x433).toByteArray();
                             dev.set().reqSetProperty(epcByte, edtByteArr).send();
                             System.out.println("Air conditioner is DRY MODE");
+                        }
+                        else if (message.toString() == "Heating"){
+                            byte epcByte = Integer.valueOf(0xB0).byteValue();
+                            byte[] edtByteArr = BigInteger.valueOf(0x43).toByteArray();
+                            dev.set().reqSetProperty(epcByte, edtByteArr).send();
+                            System.out.println("Air conditioner is Heating");
+                        }
+                        // Power-saving operation setting
+                        else if (message.toString() == "Power"){
+                            byte epcByte = Integer.valueOf(0x8F).byteValue();
+                            byte[] edtByteArr = BigInteger.valueOf(0x41).toByteArray();
+                            dev.set().reqSetProperty(epcByte, edtByteArr).send();
+                            System.out.println("Air conditioner is Power-saving MODE");
+                        }
+                        else if (message.toString() == "Normal"){
+                            byte epcByte = Integer.valueOf(0x8F).byteValue();
+                            byte[] edtByteArr = BigInteger.valueOf(0x42).toByteArray();
+                            dev.set().reqSetProperty(epcByte, edtByteArr).send();
+                            System.out.println("Air conditioner is Normal MODE");
                         }
                         // Temperature Value
                         else if (message.toString().equals("18")){

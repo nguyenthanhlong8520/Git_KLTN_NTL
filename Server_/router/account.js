@@ -26,6 +26,7 @@ router.post('/register', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
+    console.log("clicked !!!");
     var email = req.body.email;
     var password = req.body.password;
 

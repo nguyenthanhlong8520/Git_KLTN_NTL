@@ -45,7 +45,7 @@ export default Login = ({ navigation }) => {
                     {/*Email & password*/}
                     <View style={{width:'100%', height:'20%', marginTop: 0.1 * windowHeight, alignItems: 'center', borderWidth:1, borderColor:'#a5a5a5'}}>
                         {/*Email*/}
-                        <Spinner visible={isLoading}/>
+                        {/* <Spinner visible={isLoading}/> */}
                         <View style={{ width:'75%', height:20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop:30}}>
                             <Text style={{color: 'black'}}>Email</Text>
                             <TextInput 

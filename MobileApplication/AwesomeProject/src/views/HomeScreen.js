@@ -20,13 +20,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import axios from "axios";
 import {BASE_URL} from '../config';
 
+// import CircularProgress from 'react-native-circular-progress-indicator';    
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default HomeScreen = ({ navigation }) => {
     const [status, setStatus] = useState('OFF');
     const [temp, setTemp] = useState('12');
-    const [mode, setMode] = useState('AUTO');
+    const [mode, setMode] = useState('DRY');
 
     const changeStatus = () => {
         axios
@@ -86,24 +88,19 @@ export default HomeScreen = ({ navigation }) => {
     };
 
     return (
-        <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../img/bgs.jpg')} resizeMode='stretch'>
+        <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../img/s1.jpg')} resizeMode='stretch'>
             <StatusBar barStyle="light-content"/>
             <SafeAreaView style={{flex:1}}>
                 <View style={{height: '100%', width:'100%'}}>
+                    <View style={{width:'92.5%', height:'30%', marginBottom: 0, alignItems: 'center', 
+                            borderWidth:0, borderColor:'#a5a5a5', flex:'column', 
+                            right: 16,
+                            left: 16,
+                            borderRadius: 16,
+                        }}>
+                        <Image source={require('../img/air.png')} style={{width: '40%', height: '60%', marginTop: 30}} />
 
-                    <View style={{flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'center'}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 22, color: COLORS.dark,  marginLeft: 10}}>
-                        Home
-                    </Text>
-                    <Text
-                        style={{fontWeight: 'bold', fontSize: 22, color: COLORS.secondary, marginLeft: 7}}>
-                        Screen
-                    </Text>
-                    </View>
-                   
-                    <View style={{borderWidth:0, alignItems: 'center', justifyContent: 'center'}}>
-                        <Image source={require('../img/air.png')} style={{width: '40%', height: '40%'}} />
-                        <Text style={{color: 'black', fontWeight: 'bold', fontSize:18}}>AIR CONDITIONER</Text>
+                        { <Text style={{color: 'black', fontWeight: 'bold', fontSize:18}}>AIR CONDITIONER</Text> }                        
                     </View>
 
                     <View style={{width:'92.5%', height:'30%', marginBottom: 50, alignItems: 'center', borderWidth:1, borderColor:'#a5a5a5', flex:'column', 
@@ -113,8 +110,8 @@ export default HomeScreen = ({ navigation }) => {
                         }}>
                         {/*Status*/}     
                         <View style={{ width:'75%', height:20, flexDirection: 'row', marginTop:30}}>
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:-10}}>Status</Text>
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18,  marginLeft:100}}>{status}</Text>
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:20, marginLeft:-10, fontFamily:"Cochin"}}>Status</Text>
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize: 18,  marginLeft:100, fontFamily:"Cochin"}}>{status}</Text>
                             <TouchableOpacity style={{height: '190%', width: '24%', marginTop: 0, marginLeft:77, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
                                         onPress = {() => {
                                             changeStatus();
@@ -126,8 +123,8 @@ export default HomeScreen = ({ navigation }) => {
                        
                         {/*Temperature*/}     
                         <View style={{ width:'75%', height:20, flexDirection: 'row', marginTop:30}}>
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginRight:12, marginLeft:-32}}>Temperature</Text>
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18,  marginLeft:50}}>{temp} °C</Text>
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:20, marginRight:12, marginLeft:-32, fontFamily:"Cochin"}}>Temperature</Text>
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:20,  marginLeft:50, fontFamily:"Cochin"}}>{temp} °C</Text>
                             <TouchableOpacity style={{height: '190%', width: '14%', marginTop: 0, marginRight:10, marginLeft:55, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
                                         onPress = {() => {
                                             increaseTemp();
@@ -145,8 +142,8 @@ export default HomeScreen = ({ navigation }) => {
                         </View>
                         {/*Mode*/}
                         <View style={{ width:'75%', height:20, flexDirection: 'row', marginTop:30}}>
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:-9}}>Mode</Text>
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:100}}>{mode}</Text>
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:20, marginLeft:-9, fontFamily:"Cochin"}}>Mode</Text>
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:100, fontFamily:"Cochin"}}>{mode}</Text>
                             <TouchableOpacity style={{height: '190%', width: '34%', marginTop: 0, marginLeft:55, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
                                         onPress = {() => {
                                             changeMode();
@@ -157,10 +154,25 @@ export default HomeScreen = ({ navigation }) => {
                         </View>
                          {/*Humidity*/}
                          <View style={{ width:'75%', height:20, flexDirection: 'row', marginTop:30}}>
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:-20}}>Humidity</Text>
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:80}}>60 %</Text>
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:20, marginLeft:-20, fontFamily:"Cochin"}}>Humidity</Text>
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:80, fontFamily:"Cochin"}}>60 %</Text>
                         </View>
                     </View>
+                    { <View style={{width:'92.5%', marginBottom: 50, alignItems: 'center', borderWidth:1, borderColor:'#a5a5a5', flex:'column', 
+                            right: 16,
+                            left: 16,
+                            borderRadius: 16,
+                            fontFamily:"Cochin"
+                        }}>
+                        <Button
+                                title="Sleep Mode"
+                                color="#841584"
+                                accessibilityLabel="Learn more about this purple button"
+                                onPress = {() => {
+                                    navigation.navigate('setting');
+                                }}
+                        />
+                    </View> }      
                 </View>
             </SafeAreaView>
         </ImageBackground>

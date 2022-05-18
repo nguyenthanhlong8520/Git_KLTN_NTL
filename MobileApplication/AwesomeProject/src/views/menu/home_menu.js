@@ -35,6 +35,21 @@ export default App = ({navigation}) =>{
   const scaleValue = useRef(new Animated.Value(1)).current;
   const closeButtonOffset = useRef(new Animated.Value(0)).current;
 
+  let time = new Date().toLocaleTimeString();
+  let date = new Date().toLocaleDateString();
+
+  const [cTime, setcTime] = useState(time);
+  const [cDate, setDate]  = useState(date);
+
+  const updateTime = () => {
+    time = new Date().toLocaleTimeString();
+    date = new Date().toLocaleDateString();
+    setcTime(time);
+    setDate(date);
+  }
+
+  setInterval(updateTime, 1000);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ justifyContent: 'flex-start', padding: 15 }}>
@@ -101,7 +116,7 @@ export default App = ({navigation}) =>{
       }}>
 
         { 
-          // Menu Button...
+          // Menu Button... 
         }
 
         <Animated.View style={{
@@ -147,8 +162,12 @@ export default App = ({navigation}) =>{
             color: 'black',
             paddingTop: 20
           }}>{currentTab}</Text>
+            <View style={{width:'92.5%', left: 11, alignItems: 'center', borderWidth:2, flex:'column', borderRadius: 16, marginTop:10 }}>
+              <Text>{cTime}</Text>
+              <Text>{cDate}</Text>
+            </View>
             <View style={{width:'92.5%', height:'60%', marginBottom: 40, alignItems: 'center', borderWidth:2, flex:'column', 
-                            right: 16, left: 16, borderRadius: 16, marginTop:50 }}>
+                            right: 16, left: 11, borderRadius: 16, marginTop:40 }}>
 
                         <View style={{width:'75%', height:45, flexDirection: 'row', marginTop:30, borderWidth:1, borderRadius:16}}>
                             <Image 

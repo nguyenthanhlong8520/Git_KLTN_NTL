@@ -62,50 +62,23 @@ public class EchonetLiteControllerNew {
                     }
 
                     @Override
-                    protected void onGetMeasuredValueOfRoomRelativeHumidity(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {
-                        super.onGetMeasuredValueOfRoomTemperature(eoj, tid, esv, property, success);
+                    protected void onGetGetPropertyMap(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success){
+                        super.onGetGetPropertyMap(eoj, tid, esv, property, success);
                         if(!success){
-                            System.out.println("Can't get any value");
-                            return;
-                        }
-                        int humidity = ConvertByteToInt(property.edt);
-                        System.out.println("Humidity" + humidity);
-                    }
-
-                    @Override
-                    protected void onGetMeasuredValueOfCurrentConsumption(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {
-                        super.onGetMeasuredValueOfCurrentConsumption(eoj, tid, esv, property, success);
-                        if(!success){
-                            System.out.println("Can't get any value consumption");
+                            System.out.println("Can't get any value property");
                             return;
                         }
                         int Consumption_A = ConvertByteToInt(property.edt);
-                        System.out.println("Consumption" + Consumption_A);
+                        System.out.println("prop" + Consumption_A);
                     }
 
-                    @Override
-                    protected void onGetRatedPowerConsumption(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {
-                        super.onGetRatedPowerConsumption(eoj, tid, esv, property, success);
-                        if(!success){
-                            System.out.println("Can't get any value Power");
-                            return;
-                        }
-                        int Consumption_A = ConvertByteToInt(property.edt);
-                        System.out.println("Power" + Consumption_A);
-                    }
+
                 });
                 try{
-//                    device.set().reqSetOperationStatus(new byte[]{0x31}).send();
-                    //HomeAirConditioner.setG().reqSetOperationStatus(new byte[]{0x30}).send();
-                    //HomeAirConditioner.setG().reqSetSetTemperatureValue(new byte[]{0x17}).send();
-                      device.get().reqGetOperationStatus().send();
-//                    device.get().reqGetMeasuredValueOfRoomTemperature().send();
+                      device.get().reqGetMeasuredValueOfRoomTemperature().send();
+                      System.out.println(device.getNode().getAddressStr());
 //                    device.get().reqGetMeasuredValueOfCurrentConsumption().send();
-//                    device.get().reqGetGetPropertyMap().send();
-//                    device.get().reqGetRatedPowerConsumption().send();
-                    //device.set().reqSetOperationStatus(new byte[]{0x30}).send();
-                    //device.get().reqGetMeasuredValueOfRoomRelativeHumidity().send();
-//                    device.set().reqSetSetTemperatureValue(new byte[]{0x17});
+                      //device.get().reqGetGetPropertyMap().send();
                 }catch(Exception e){
                     System.out.println("Exception + " + e);
                 }
