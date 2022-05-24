@@ -28,38 +28,67 @@ export default Login = ({ navigation }) => {
     const [password, setPassword] = useState(null);
     const {isLoading, login} = useContext(AuthContext);
 
+    const validate_field =  (email, password) => {
+        if (email == null){
+          alert("please fill username")
+          return false
+        } else if (password == null){
+          alert("please fill password")
+          return false
+        }
+        return true
+    }
+
     return (
-        <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../img/bgs.jpg')} resizeMode='stretch'>
+         <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../img/bg1.jpg')} resizeMode='stretch'>
             <StatusBar barStyle="light-content"/>
-            <SafeAreaView style={{flex:1}}>
-                <View style={{height: '100%', width:'100%'}}>
-                    <View style={{flexDirection: 'row', marginTop: 70}}>
-                    <Text style={{fontWeight: 'bold', fontSize: 22, color: COLORS.dark,  marginLeft: 10}}>
-                        SMART
-                    </Text>
-                    <Text
-                        style={{fontWeight: 'bold', fontSize: 22, color: COLORS.secondary, marginLeft: 7}}>
-                        HOME
-                    </Text>
+            <SafeAreaView>
+                <View style={{height: '100%', width:'100%', color: 'blue'}}>
+                    <View style={{width:'92.5%', height:'30%', marginBottom: 10, alignItems: 'center', 
+                            borderWidth:0, borderColor:'#a5a5a5', flex:'column', 
+                            right: 16,
+                            left: 16,
+                            borderRadius: 16,
+                        }}>
+                        <Image source={require('../img/smh.jpg')} style={{width: '109%', height: '100%', marginTop: -20}} />
                     </View>
-                    {/*Email & password*/}
-                    <View style={{width:'100%', height:'20%', marginTop: 0.1 * windowHeight, alignItems: 'center', borderWidth:1, borderColor:'#a5a5a5'}}>
+                    <View style={{alignItems: 'center', 
+                            borderWidth:0, borderColor:'#a5a5a5', flex:'column', 
+                            right: 16,
+                            left: 16,
+                            borderRadius: 16,
+                            
+                        }}>
+                    <Image source={require('../img/icon_login.png')} />
+                    </View>
+                    <View style={{width:'80%', height:'25%', marginTop: -0.03 * windowHeight, 
+                                 alignItems: 'center', left:40, borderWidth:1, borderColor:'#a5a5a5',}}>
                         {/*Email*/}
                         {/* <Spinner visible={isLoading}/> */}
-                        <View style={{ width:'75%', height:20, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop:30}}>
-                            <Text style={{color: 'black'}}>Email</Text>
+                        <View style={{ width:'95%', height:40, flexDirection: 'row', 
+                                       alignItems: 'center', justifyContent: 'space-between', marginTop:30,
+                                       borderWidth:1, borderRadius:10   
+                                    }}>
+                            {/* <Text style={{color: 'black'}}>Email</Text> */}
+                            <Image source={require('../img/icon_lg.png')} />
                             <TextInput 
-                                style={{width:'70%', height:'65%', borderBottomColor: 'red', borderBottomWidth:1}}
+                                placeholder={"Phone number or email"}
+                                style={{width:'80%', height:'65%'}}
                                 value={email}
                                 //placeholder="enter email"
                                 onChangeText={text => setEmail(text)}
                             />
                         </View>
                         {/*Password*/}
-                        <View style={{ width:'75%', height:30, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 15}}>
-                            <Text style={{color: 'black'}}>Password</Text>
+                        <View style={{ width:'95%', height:40, flexDirection: 'row', alignItems: 'center', 
+                                       justifyContent: 'space-between', marginTop: 15,
+                                       borderWidth:1, borderRadius:10   
+                                    }}>
+                            {/* <Text style={{color: 'black'}}>Password</Text> */}
+                            <Image source={require('../img/icon_pass.png')} />
                             <TextInput 
-                                style={{width:'70%', height:'65%', borderBottomColor: 'red', borderBottomWidth:1, paddingRight: 30}}
+                                placeholder={"Password"}
+                                style={{width:'80%', height:'65%', paddingRight: 30}}
                                 secureTextEntry={getPasswordVisible ? false:true}
                                 value={password}
                                 onChangeText={text => setPassword(text)}
@@ -70,19 +99,23 @@ export default Login = ({ navigation }) => {
                                   }}
                             >
                                 {getPasswordVisible ?  
-                                 <Image source={require('../img/eye.png')} style={{width: '100%', height: '30%'}} /> :
-                                 <Image source={require('../img/eye_.png')} style={{width: '150%', height: '60%'}} /> 
+                                 <Image source={require('../img/e1.png')} style={{width: '100%', height: '40%', marginTop: 10, right: 5}} /> :
+                                 <Image source={require('../img/e2.png')} style={{width: '100%', height: '40%', marginTop: 10, right: 5}} /> 
                                 }
                             </TouchableOpacity>
                         </View>
-                        <View style={{height: '23%', width: '100%', marginTop: 0.01*windowHeight, justifyContent: 'center', alignItems: 'center' }}>
-                        <TouchableOpacity style={{height: '80%', width: '30%', marginTop: 7, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
+                        <View style={{height: '23%', width: '50%', marginTop: 0.01*windowHeight, justifyContent: 'center', alignItems: 'center', 
+                                        backgroundColor: '#4267B2', borderWidth:1, borderRadius:10 }}>
+                        <TouchableOpacity style={{height: '100%', width: '100%', marginTop: 0, alignItems: 'center', 
+                                                  justifyContent: 'center'}}
                                         onPress = {() => {
-                                            login(email, password);
-                                            //navigation.navigate('HomeTabs');
+                                            if (validate_field(email, password)){
+                                                login(email, password);
+                                            }
                                         }}
                                         >
-                                        <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin"}}>Login</Text>
+                                        <Text style={{color: '#000', fontWeight: 'bold', 
+                                        fontSize: 16, fontFamily:"Cochin"}}>Login</Text>
                         </TouchableOpacity> 
                         </View>
                     </View>
@@ -102,8 +135,18 @@ export default Login = ({ navigation }) => {
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         }}>
-                        <View style={STYLES.btnSecondary}>
-                        <Text style={{fontWeight: 'bold', fontSize: 16,  fontFamily:"Cochin"}}>
+                        <View style={{height: 50,
+                                        borderWidth: 1,
+                                        borderColor: '#a5a5a5',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        borderRadius: 5,
+                                        flex: 1,
+                                        flexDirection: 'row',
+                                        width:'80%',
+                                        color: 'red'
+                                    }}>
+                        <Text style={{color: 'blue', fontWeight: 'bold', fontSize: 16,  fontFamily:"Cochin"}}>
                             Sign up with
                         </Text>
                         <Image
@@ -119,11 +162,11 @@ export default Login = ({ navigation }) => {
                             navigation.navigate('SignUpScreen');
                         }}
                         >
-                        <Text style={{fontSize: 16,  fontFamily:"Cochin", fontWeight: 'bold'}}>New Account</Text>
+                        <Text style={{color: 'blue', fontSize: 16,  fontFamily:"Cochin", fontWeight: 'bold'}}>Create new account</Text>
                         </TouchableOpacity>
                         <Image
                             style={STYLES.btnImage}
-                            source={require('../img/ins.png')}
+                            source={require('../img/ng.png')}
                         />
                         </View>
                     </View>

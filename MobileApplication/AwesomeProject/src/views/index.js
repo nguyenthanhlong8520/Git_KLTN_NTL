@@ -67,7 +67,7 @@ function Tabs(){
                     tabBarIcon: ({focused}) => (
                         <View style={{alignItems: 'center', justifyContent: 'center', top: 5}}>
                             <Image 
-                                source={require('../img/sleepmode.png')}
+                                source={require('../img/iconSetting.png')}
                                 style={{
                                     
                                 }}

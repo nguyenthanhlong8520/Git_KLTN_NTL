@@ -20,8 +20,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import axios from "axios";
 import {BASE_URL} from '../config';
 
-// import CircularProgress from 'react-native-circular-progress-indicator';    
-
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 

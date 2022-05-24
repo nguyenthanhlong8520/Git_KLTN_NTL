@@ -176,13 +176,13 @@ export default App = ({navigation}) =>{
                                     
                                 }}
                             />
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:100}}></Text>
-                            <TouchableOpacity style={{height: '190%', width: '34%', marginTop: 0, alignItems: 'center', justifyContent: 'center'}}
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:60}}></Text>
+                            <TouchableOpacity style={{height: '190%', width: '44%', marginTop: 0, alignItems: 'center', justifyContent: 'center'}}
                                         onPress = {() => {
                                             navigation.navigate('Room1');
                                         }}
                                         >
-                            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 26, fontFamily:"Cochin", marginBottom: 40}}>Room 1</Text>
+                            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 26, fontFamily:"Cochin", marginBottom: 40}}>Bedroom 1</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{width:'75%', height:45, flexDirection: 'row', marginTop:30, borderWidth:1, borderRadius:16}}>
@@ -192,13 +192,13 @@ export default App = ({navigation}) =>{
                                     
                                 }}
                             />
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:100}}></Text>
-                            <TouchableOpacity style={{height: '190%', width: '34%', marginTop: 0, alignItems: 'center', justifyContent: 'center'}}
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:60}}></Text>
+                            <TouchableOpacity style={{height: '190%', width: '44%', marginTop: 0, alignItems: 'center', justifyContent: 'center'}}
                                         onPress = {() => {
                                             navigation.navigate('Room1');
                                         }}
                                         >
-                            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 26, fontFamily:"Cochin", marginBottom: 40}}>Room 2</Text>
+                            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 26, fontFamily:"Cochin", marginBottom: 40}}>Bedroom 2</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{width:'75%', height:45, flexDirection: 'row', marginTop:30, borderWidth:1, borderRadius:16}}>
@@ -208,13 +208,13 @@ export default App = ({navigation}) =>{
                                     
                                 }}
                             />
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:100}}></Text>
-                            <TouchableOpacity style={{height: '190%', width: '34%', marginTop: 0, alignItems: 'center', justifyContent: 'center'}}
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:60}}></Text>
+                            <TouchableOpacity style={{height: '190%', width: '48%', marginTop: 0, alignItems: 'center', justifyContent: 'center'}}
                                         onPress = {() => {
                                             navigation.navigate('Room1');
                                         }}
                                         >
-                            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 26, fontFamily:"Cochin", marginBottom: 40}}>Room 3</Text>
+                            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 26, fontFamily:"Cochin", marginBottom: 40}}>Living room</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{width:'75%', height:45, flexDirection: 'row', marginTop:30, borderWidth:1, borderRadius:16}}>
@@ -224,13 +224,13 @@ export default App = ({navigation}) =>{
                                     
                                 }}
                             />
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:100}}></Text>
-                            <TouchableOpacity style={{height: '190%', width: '34%', marginTop: 0, alignItems: 'center', justifyContent: 'center'}}
+                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:60}}></Text>
+                            <TouchableOpacity style={{height: '190%', width: '51%', marginTop: 0, alignItems: 'center', justifyContent: 'center'}}
                                         onPress = {() => {
                                             navigation.navigate('Room1');
                                         }}
                                         >
-                            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 26, fontFamily:"Cochin", marginBottom: 40}}>Room 4</Text>
+                            <Text style={{color: '#000', fontWeight: 'bold', fontSize: 26, fontFamily:"Cochin", marginBottom: 40}}>Dining room</Text>
                             </TouchableOpacity>
                         </View>
             </View>

@@ -32,7 +32,7 @@ const STYLES = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  btnImage: {width: 20, height: 20, marginLeft: 5},
+  btnImage: {width: 22, height: 22, marginLeft: 5},
 
   line: {height: 1, width: 30, backgroundColor: '#a5a5a5'},
 });

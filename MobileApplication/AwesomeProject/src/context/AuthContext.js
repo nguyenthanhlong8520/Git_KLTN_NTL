@@ -10,7 +10,7 @@ export const AuthProvider = ({children, navigation}) => {
     const [userName, setUserName] = useState("None");
     const [isLoading, setIsLoading] = useState(false);
 
-    const register = (email, password) => {
+    const register = (email, password, rePassword) => {
         //setIsLoading(true);
         console.log(email + " " + password);
         axios

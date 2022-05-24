@@ -61,7 +61,7 @@ export default Setting = ({ navigation }) => {
             
           })
           .catch(e => {
-            console.log(`login error ${e}`);
+            console.log(`error ${e}`);
           });
       };
 
@@ -76,8 +76,9 @@ export default Setting = ({ navigation }) => {
                             left: 16,
                             borderRadius: 16,
                         }}>
-                        <Image source={require('../img/air.png')} style={{width: '40%', height: '60%', marginTop: 30}} />
-                        <Text style={{color: 'black', fontWeight: 'bold', fontSize:18}}>AIR CONDITIONER</Text>
+                        <Image source={require('../img/sleepmode.png')} style={{width: '40%', height: '60%', marginTop: 30}} />
+                        <Text style={{fontFamily:"Cochin", color: 'black', 
+                                      fontWeight: 'bold', fontSize:19, top:10}}>Automatic Temperature Regulation</Text>
                     </View>
 
                     <View style={{width:'92.5%', height:'30%', marginBottom: 50, alignItems: 'center', borderWidth:1, borderColor:'#a5a5a5', flex:'column', 
@@ -103,7 +104,6 @@ export default Setting = ({ navigation }) => {
                             <TextInput 
                                 style={{width:'24%', height:'130%', borderWidth:1, left: 120}}
                                 value={tempStart}
-                                //placeholder="enter email"
                                 onChangeText={text => setTempStart(text)}
                             />
                         </View>
@@ -113,7 +113,6 @@ export default Setting = ({ navigation }) => {
                             <TextInput 
                                 style={{width:'24%', height:'130%', borderWidth:1, left: 125}}
                                 value={tempMax}
-                                //placeholder="enter email"
                                 onChangeText={text => setTempMax(text)}
                             />
                         </View>

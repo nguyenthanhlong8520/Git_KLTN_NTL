@@ -23,11 +23,11 @@ const ViewBoxesWithColorAndText = ({navigation}) => {
         <View style={{height: '100%', width:'100%'}}>
             <View style={{flexDirection: 'row', marginTop: 70}}>
             <Text style={{fontWeight: 'bold', fontSize: 22, color: COLORS.dark,  marginLeft: 10}}>
-                Room
+                Bedroom
             </Text>
             <Text
                 style={{fontWeight: 'bold', fontSize: 22, color: COLORS.secondary, marginLeft: 7}}>
-                01
+                1
             </Text>
             </View>
             <View
@@ -45,6 +45,9 @@ const ViewBoxesWithColorAndText = ({navigation}) => {
                 style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
+                left:120,
+                width: '40%',
+                alignItems: 'center'
                 }}>
                 <View style={{width: 10}}></View>
                
@@ -59,7 +62,7 @@ const ViewBoxesWithColorAndText = ({navigation}) => {
                 
                 <Image
                     style={STYLES.btnImage}
-                    source={require('../../img/ins.png')}
+                    source={require('../../img/air_icon.png')}
                 />
                 </View>
             </View>
