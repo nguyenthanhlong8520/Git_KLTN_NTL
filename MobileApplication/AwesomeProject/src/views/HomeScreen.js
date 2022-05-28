@@ -19,6 +19,7 @@ import STYLES from '../Style/Style';
 import { NavigationContainer } from "@react-navigation/native";
 import axios from "axios";
 import {BASE_URL} from '../config';
+import CircularProcess from 'react-native-circular-progress-indicator'
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -27,6 +28,8 @@ export default HomeScreen = ({ navigation }) => {
     const [status, setStatus] = useState('OFF');
     const [temp, setTemp] = useState('12');
     const [mode, setMode] = useState('DRY');
+    const {dataChart} = useContext(AuthContext);
+
 
     const changeStatus = () => {
         axios
@@ -86,25 +89,57 @@ export default HomeScreen = ({ navigation }) => {
     };
 
     return (
-        <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../img/s1.jpg')} resizeMode='stretch'>
+        <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../img/bg1.jpg')} resizeMode='stretch'>
             <StatusBar barStyle="light-content"/>
             <SafeAreaView style={{flex:1}}>
-                <View style={{height: '100%', width:'100%'}}>
-                    <View style={{width:'92.5%', height:'30%', marginBottom: 0, alignItems: 'center', 
-                            borderWidth:0, borderColor:'#a5a5a5', flex:'column', 
+                <View style={{height: '120%', width:'100%',  top: -20}}>
+                    <View style={{
+                            marginBottom: 65, top: 50, alignItems: 'center', 
+                            flex:'column', 
                             right: 16,
                             left: 16,
                             borderRadius: 16,
                         }}>
-                        <Image source={require('../img/air.png')} style={{width: '40%', height: '60%', marginTop: 30}} />
-
-                        { <Text style={{color: 'black', fontWeight: 'bold', fontSize:18}}>AIR CONDITIONER</Text> }                        
+                        <CircularProcess 
+                            radius={120}
+                            value={temp}
+                            textColor='#FFFFFF'
+                            title="Temperature"
+                            progressValueColor={'#ecf0f1'}
+                            activeStrokeColor={'#f39c12'}
+                            inActiveStrokeColor={'#9b59b6'}                          
+                            fontSize= {20}
+                            valueSuffix={'°C'}
+                        />
                     </View>
-
+                    <View style={{ width:'75%', 
+                                   height:20, 
+                                   flexDirection: 'row', 
+                                   marginTop:15, 
+                                   alignItems: 'center', 
+                                   justifyContent: 'center',
+                                   left:35
+                                }}>
+                            <TouchableOpacity style={{height: '190%', width: '17%', marginTop: 0, marginRight:100, marginLeft:55, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
+                                        onPress = {() => {
+                                            increaseTemp();
+                                        }}
+                                        >
+                                        <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin"}}>+</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{height: '190%', width: '17%',alignItems: 'center', justifyContent: 'center', borderWidth:1}}
+                                        onPress = {() => {
+                                            decreaseTemp();
+                                        }}
+                                        >
+                                        <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin", marginBottom:1}}>-</Text>
+                            </TouchableOpacity>  
+                    </View>
                     <View style={{width:'92.5%', height:'30%', marginBottom: 50, alignItems: 'center', borderWidth:1, borderColor:'#a5a5a5', flex:'column', 
                             right: 16,
                             left: 16,
                             borderRadius: 16,
+                            top: 40
                         }}>
                         {/*Status*/}     
                         <View style={{ width:'75%', height:20, flexDirection: 'row', marginTop:30}}>
@@ -118,27 +153,6 @@ export default HomeScreen = ({ navigation }) => {
                                         <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin"}}>ON/OFF</Text>
                             </TouchableOpacity>
                         </View>
-                       
-                        {/*Temperature*/}     
-                        <View style={{ width:'75%', height:20, flexDirection: 'row', marginTop:30}}>
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:20, marginRight:12, marginLeft:-32, fontFamily:"Cochin"}}>Temperature</Text>
-                            <Text style={{color: 'black', fontWeight: 'bold', fontSize:20,  marginLeft:50, fontFamily:"Cochin"}}>{temp} °C</Text>
-                            <TouchableOpacity style={{height: '190%', width: '14%', marginTop: 0, marginRight:10, marginLeft:55, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
-                                        onPress = {() => {
-                                            increaseTemp();
-                                        }}
-                                        >
-                                        <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin"}}>+</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{height: '190%', width: '14%',alignItems: 'center', justifyContent: 'center', borderWidth:1}}
-                                        onPress = {() => {
-                                            decreaseTemp();
-                                        }}
-                                        >
-                                        <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin", marginBottom:1}}>-</Text>
-                            </TouchableOpacity>  
-                        </View>
-                        {/*Mode*/}
                         <View style={{ width:'75%', height:20, flexDirection: 'row', marginTop:30}}>
                             <Text style={{color: 'black', fontWeight: 'bold', fontSize:20, marginLeft:-9, fontFamily:"Cochin"}}>Mode</Text>
                             <Text style={{color: 'black', fontWeight: 'bold', fontSize:18, marginLeft:100, fontFamily:"Cochin"}}>{mode}</Text>
@@ -160,17 +174,20 @@ export default HomeScreen = ({ navigation }) => {
                             right: 16,
                             left: 16,
                             borderRadius: 16,
-                            fontFamily:"Cochin"
+                            fontFamily:"Cochin",
+                            top: 10
                         }}>
                         <Button
                                 title="Sleep Mode"
                                 color="#841584"
                                 accessibilityLabel="Learn more about this purple button"
                                 onPress = {() => {
+                                    // something 
+                                    dataChart();
                                     navigation.navigate('setting');
                                 }}
                         />
-                    </View> }      
+                    </View> }
                 </View>
             </SafeAreaView>
         </ImageBackground>

@@ -99,7 +99,7 @@ export default App = ({navigation}) =>{
 
       <Animated.View style={{
         flexGrow: 1,
-        backgroundColor: '#FFCCCC',
+        backgroundColor: '#99CCFF',
         position: 'absolute',
         top: 0,
         bottom: 0,
@@ -162,7 +162,9 @@ export default App = ({navigation}) =>{
             color: 'black',
             paddingTop: 20
           }}>{currentTab}</Text>
-            <View style={{width:'92.5%', left: 11, alignItems: 'center', borderWidth:2, flex:'column', borderRadius: 16, marginTop:10 }}>
+
+          <ImageBackground >
+          <View style={{width:'92.5%', left: 11, alignItems: 'center', borderWidth:2, flex:'column', borderRadius: 16, marginTop:10 }}>
               <Text>{cTime}</Text>
               <Text>{cDate}</Text>
             </View>
@@ -234,6 +236,8 @@ export default App = ({navigation}) =>{
                             </TouchableOpacity>
                         </View>
             </View>
+          </ImageBackground>
+
         </Animated.View>
       </Animated.View>
     </SafeAreaView>

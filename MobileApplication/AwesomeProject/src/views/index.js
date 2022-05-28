@@ -41,6 +41,7 @@ function Tabs(){
               right: 16,
               left: 16,
               borderRadius: 16,
+              
             }
           }}
             defaultScreenOptions={{
@@ -77,7 +78,7 @@ function Tabs(){
                 }}
             />
 
-        <Tab.Screen name="Time" component={time} 
+        <Tab.Screen name="Chart Temperature" component={time} 
                  options={{
                     tabBarIcon: ({focused}) => (
                         <View style={{alignItems: 'center', justifyContent: 'center', top: 5}}>
@@ -92,7 +93,6 @@ function Tabs(){
                 }}
             />
         </Tab.Navigator>
-        
     );
 }
 

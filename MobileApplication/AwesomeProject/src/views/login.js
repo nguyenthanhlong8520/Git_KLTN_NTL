@@ -52,7 +52,7 @@ export default Login = ({ navigation }) => {
                         }}>
                         <Image source={require('../img/smh.jpg')} style={{width: '109%', height: '100%', marginTop: -20}} />
                     </View>
-                    <View style={{alignItems: 'center', 
+                    {/* <View style={{alignItems: 'center', 
                             borderWidth:0, borderColor:'#a5a5a5', flex:'column', 
                             right: 16,
                             left: 16,
@@ -60,13 +60,13 @@ export default Login = ({ navigation }) => {
                             
                         }}>
                     <Image source={require('../img/icon_login.png')} />
-                    </View>
-                    <View style={{width:'80%', height:'25%', marginTop: -0.03 * windowHeight, 
+                    </View> */}
+                    <View style={{width:'80%', height:'25%',
                                  alignItems: 'center', left:40, borderWidth:1, borderColor:'#a5a5a5',}}>
                         {/*Email*/}
                         {/* <Spinner visible={isLoading}/> */}
                         <View style={{ width:'95%', height:40, flexDirection: 'row', 
-                                       alignItems: 'center', justifyContent: 'space-between', marginTop:30,
+                                       alignItems: 'center', justifyContent: 'space-between', marginTop:15,
                                        borderWidth:1, borderRadius:10   
                                     }}>
                             {/* <Text style={{color: 'black'}}>Email</Text> */}
@@ -125,6 +125,7 @@ export default Login = ({ navigation }) => {
                           flexDirection: 'row',
                           justifyContent: 'center',
                           alignItems: 'center',
+                          top: 160
                         }}>
                         <View style={STYLES.line}></View>
                         <Text style={{marginHorizontal: 5, fontWeight: 'bold'}}>OR</Text>
@@ -134,6 +135,7 @@ export default Login = ({ navigation }) => {
                         style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
+                        top: 166
                         }}>
                         <View style={{height: 50,
                                         borderWidth: 1,

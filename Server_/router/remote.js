@@ -372,5 +372,25 @@ router.post('/updateTemp', (req, res) => {
     });
 })
 
+router.post('/dataTemp', (req, res) => {
+    var sql = 'SELECT * FROM auto_sleep';
+    // console.log(req.body);
+    connection.query(sql,function (err, result) {
+        var data =  JSON.parse(JSON.stringify(result));
+        console.log(data[0].t0)
+        var t0 = data[0].t0;
+        var tmax = data[0].tmax;
+        var t1 = data[0].t1;
+        var t2 = data[0].t2;
+        var t3 = data[0].t3;
+        res.send( JSON.stringify({
+                t0 : t0,
+                tmax : tmax,
+                t1 : t1,
+                t2 : t2,
+                t3 : t3 
+        }));
+    });
+})
 
 module.exports = router;

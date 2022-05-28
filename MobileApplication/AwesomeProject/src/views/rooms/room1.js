@@ -17,7 +17,7 @@ import STYLES from '../../Style/Style';
 
 const ViewBoxesWithColorAndText = ({navigation}) => {
   return (
-    <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../../img/bgs.jpg')} resizeMode='stretch'>
+    <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../../img/bg1.jpg')} resizeMode='stretch'>
     <StatusBar barStyle="light-content"/>
     <SafeAreaView style={{flex:1}}>
         <View style={{height: '100%', width:'100%'}}>

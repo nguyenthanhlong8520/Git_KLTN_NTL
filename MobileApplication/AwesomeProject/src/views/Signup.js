@@ -71,7 +71,7 @@ export default SingUpScreen = ({ navigation }) => {
                                  alignItems: 'center', left:40, borderWidth:1, borderColor:'#a5a5a5'}}>
                         {/*Email*/}
                         <View style={{ width:'95%', height:40, flexDirection: 'row', 
-                                       alignItems: 'center', justifyContent: 'space-between', marginTop:30,
+                                       alignItems: 'center', justifyContent: 'space-between', marginTop:15,
                                        borderWidth:1, borderRadius:10   
                                     }}>
                             {/* <Text style={{color: 'black'}}>Email</Text> */}
