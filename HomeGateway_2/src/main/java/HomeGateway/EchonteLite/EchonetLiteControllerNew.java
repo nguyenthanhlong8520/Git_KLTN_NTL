@@ -4,6 +4,7 @@ import com.sonycsl.echo.EchoProperty;
 import com.sonycsl.echo.eoj.EchoObject;
 import com.sonycsl.echo.eoj.device.DeviceObject;
 import com.sonycsl.echo.eoj.device.airconditioner.HomeAirConditioner;
+import com.sonycsl.echo.eoj.device.sensor.HumiditySensor;
 import com.sonycsl.echo.eoj.profile.NodeProfile;
 import com.sonycsl.echo.processing.defaults.DefaultController;
 import com.sonycsl.echo.processing.defaults.DefaultNodeProfile;
@@ -21,6 +22,10 @@ public class EchonetLiteControllerNew {
         airConditioner = new ArrayList<>();
         Echo.addEventListener(new Echo.EventListener() {
             // Call whenever a new Home air conditional is discovered on the network
+            public void onNewHumiditySensor(HumiditySensor sensor) {
+                System.out.println("New Humidty");
+            }
+
             @Override
             public void onNewHomeAirConditioner(HomeAirConditioner device) {
                 super.onNewHomeAirConditioner(device);

@@ -10,8 +10,8 @@ import {
 
 import Login from './login'
 import SignUpScreen from "./Signup";
-import HomeScreen from "./HomeScreen";
-import setting from "./setting";
+import HomeScreen from "./MainScreen";
+import setting from "./AutoSleep";
 
 import home_menu from './menu/home_menu';
 import time from './menu/time';
@@ -41,7 +41,7 @@ function Tabs(){
               right: 16,
               left: 16,
               borderRadius: 16,
-              
+              backgroundColor:'#FFE5CC'
             }
           }}
             defaultScreenOptions={{

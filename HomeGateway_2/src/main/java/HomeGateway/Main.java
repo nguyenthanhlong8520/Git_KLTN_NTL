@@ -62,14 +62,55 @@ public class Main {
                         //IF ELSE MAC ADDRES
 
                         // LUONG GIO MANH
-                        byte A = Integer.valueOf(0xA0).byteValue();
-                        byte[] B = BigInteger.valueOf(0x31).toByteArray();
-                        dev.set().reqSetProperty(A, B).send();
+                        if(message.toString().equals("Flow_High")){
+                            byte A = Integer.valueOf(0xA0).byteValue();
+                            byte[] B = BigInteger.valueOf(0x38).toByteArray();
+                            dev.set().reqSetProperty(A, B).send();
+                            System.out.println("High");
+                        }
+                        else if(message.toString().equals("Flow_Mid")){
+                            byte A = Integer.valueOf(0xA0).byteValue();
+                            byte[] B = BigInteger.valueOf(0x35).toByteArray();
+                            dev.set().reqSetProperty(A, B).send();
+                            System.out.println("Mid");
+                        }
+                        else if(message.toString().equals("Flow_Auto")){
+                            byte A = Integer.valueOf(0xA0).byteValue();
+                            byte[] B = BigInteger.valueOf(0x41).toByteArray();
+                            dev.set().reqSetProperty(A, B).send();
+                            System.out.println("Auto");
+                        }
+                        else if(message.toString().equals("Flow_Low")){
+                            byte A = Integer.valueOf(0xA0).byteValue();
+                            byte[] B = BigInteger.valueOf(0x31).toByteArray();
+                            dev.set().reqSetProperty(A, B).send();
+                            System.out.println("Low");
+                        }
 
-                        // direction swing
-                        byte c = Integer.valueOf(0xA3).byteValue();
-                        byte[] d = BigInteger.valueOf(0x43).toByteArray();
-                        dev.set().reqSetProperty(c, d).send();
+                        // direction phuong dung
+                        if(message.toString().equals("Up_Vertical")){
+                            byte c = Integer.valueOf(0xA4).byteValue();
+                            byte[] d = BigInteger.valueOf(0x41).toByteArray();
+                            dev.set().reqSetProperty(c, d).send();
+                            System.out.println("Up vertical");
+                        }
+                        else if(message.toString().equals("Down_Vertical")){
+                            byte c = Integer.valueOf(0xA4).byteValue();
+                            byte[] d = BigInteger.valueOf(0x42).toByteArray();
+                            dev.set().reqSetProperty(c, d).send();
+                            System.out.println("Down vertical");
+                        }
+                        else if(message.toString().equals("Central_Direction_Vertical")){
+                            byte c = Integer.valueOf(0xA4).byteValue();
+                            byte[] d = BigInteger.valueOf(0x44).toByteArray();
+                            dev.set().reqSetProperty(c, d).send();
+                            System.out.println("Central vertical");
+                        }
+
+                        // phuong ngang
+                        byte e = Integer.valueOf(0xA5).byteValue();
+                        byte[] f = BigInteger.valueOf(0x41).toByteArray();
+                        dev.set().reqSetProperty(e, f).send();
 
                         // status of air-conditioner
                         if (message.toString().equals("ON")){
@@ -80,44 +121,47 @@ public class Main {
                             dev.set().reqSetOperationStatus(new byte[]{0x31}).send();
                             System.out.println("Air conditioner is OFF");
                         }
+
                         // mode
-                        else if (message.toString() == "AUTO"){
+                        else if (message.toString().equals("Auto")){
                             byte epcByte = Integer.valueOf(0xB0).byteValue();
                             byte[] edtByteArr = BigInteger.valueOf(0x41).toByteArray();
                             dev.set().reqSetProperty(epcByte, edtByteArr).send();
                             System.out.println("Air conditioner is AUTO MODE");
                         }
-                        else if (message.toString() == "COOL"){
+                        else if (message.toString().equals("Cool")){
                             byte epcByte = Integer.valueOf(0xB0).byteValue();
                             byte[] edtByteArr = BigInteger.valueOf(0x42).toByteArray();
                             dev.set().reqSetProperty(epcByte, edtByteArr).send();
                             System.out.println("Air conditioner is COOL MODE");
                         }
-                        else if (message.toString() == "DRY"){
+                        else if (message.toString().equals("Dry")){
                             byte epcByte = Integer.valueOf(0xB0).byteValue();
                             byte[] edtByteArr = BigInteger.valueOf(0x433).toByteArray();
                             dev.set().reqSetProperty(epcByte, edtByteArr).send();
                             System.out.println("Air conditioner is DRY MODE");
                         }
-                        else if (message.toString() == "Heating"){
+                        else if (message.toString().equals("Heating")){
                             byte epcByte = Integer.valueOf(0xB0).byteValue();
                             byte[] edtByteArr = BigInteger.valueOf(0x43).toByteArray();
                             dev.set().reqSetProperty(epcByte, edtByteArr).send();
                             System.out.println("Air conditioner is Heating");
                         }
+
                         // Power-saving operation setting
-                        else if (message.toString() == "Power"){
+                        else if (message.toString().equals("Power")){
                             byte epcByte = Integer.valueOf(0x8F).byteValue();
                             byte[] edtByteArr = BigInteger.valueOf(0x41).toByteArray();
                             dev.set().reqSetProperty(epcByte, edtByteArr).send();
                             System.out.println("Air conditioner is Power-saving MODE");
                         }
-                        else if (message.toString() == "Normal"){
+                        else if (message.toString().equals("Normal")){
                             byte epcByte = Integer.valueOf(0x8F).byteValue();
                             byte[] edtByteArr = BigInteger.valueOf(0x42).toByteArray();
                             dev.set().reqSetProperty(epcByte, edtByteArr).send();
                             System.out.println("Air conditioner is Normal MODE");
                         }
+
                         // Temperature Value
                         else if (message.toString().equals("18")){
                             byte epcByte = Integer.valueOf(0xB3).byteValue();

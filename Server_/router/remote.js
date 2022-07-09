@@ -151,17 +151,21 @@ router.post('/statusAutonatic' , (req, res) =>{
     });    
 })
 
-
 router.post('/setParamsAutomatic' , (req, res) =>{
         
         var tempStart = req.body.tempStart;
         var tempMax = req.body.tempMax;
         let timeStart = req.body.timeStart;
     
-        var time_1 = addTimes(timeStart, '01:00:00');
-        var time_2 = addTimes(time_1, '02:00:00');
-        var time_3 = addTimes(time_2, '03:00:00');
-        var time_4 = addTimes(time_3, '02:00:00');
+        // var time_1 = addTimes(timeStart, '01:00:00');
+        // var time_2 = addTimes(time_1, '02:00:00');
+        // var time_3 = addTimes(time_2, '03:00:00');
+        // var time_4 = addTimes(time_3, '02:00:00');
+
+        var time_1 = addTimes(timeStart, '00:02:00');
+        var time_2 = addTimes(time_1, '00:02:00');
+        var time_3 = addTimes(time_2, '00:02:00');
+        var time_4 = addTimes(time_3, '00:02:00');
 
         var t1 = parseInt(tempStart) - 2;
         var t2 = parseInt(t1) + 1;
@@ -272,43 +276,57 @@ router.post('/changeMode', (req, res) => {
         var data =  JSON.parse(JSON.stringify(result));
         var operation_mode = data[0].operation_mode;
         //console.log(status);
-        if (operation_mode == "AUTO"){
-            var sql = "UPDATE air_conditioner_data SET operation_mode ='COOL'";
+        if (operation_mode == "Auto"){
+            var sql = "UPDATE air_conditioner_data SET operation_mode ='Cool'";
             connection.query(sql, function (err, result) {
                 console.log("AUTO -> COOL");
                 res.send( JSON.stringify({
-                    operation_mode:'COOL'
+                    operation_mode:'Cool'
                 }));
             });
-            client.publish(topic, 'COOL', { qos: 0, retain: false }, (error) => {
+            client.publish(topic, 'Cool', { qos: 0, retain: false }, (error) => {
                 if (error) {
                   console.error(error)
                 }
             })
         }
-        else if (operation_mode == "COOL"){
-            var sql = "UPDATE air_conditioner_data SET operation_mode ='DRY'";
+        else if (operation_mode == "Cool"){
+            var sql = "UPDATE air_conditioner_data SET operation_mode ='Dry'";
             connection.query(sql, function (err, result) {
                 console.log("COOL ->> DRY");
                 res.send(JSON.stringify({
-                    operation_mode: 'DRY'
+                    operation_mode: 'Dry'
                 }));
             });
-            client.publish(topic, 'DRY', { qos: 0, retain: false }, (error) => {
+            client.publish(topic, 'Dry', { qos: 0, retain: false }, (error) => {
                 if (error) {
                   console.error(error)
                 }
             })
         }
-        else if (operation_mode == "DRY"){
-            var sql = "UPDATE air_conditioner_data SET operation_mode ='AUTO'";
+        else if (operation_mode == "Dry"){
+            var sql = "UPDATE air_conditioner_data SET operation_mode ='Heating'";
             connection.query(sql, function (err, result) {
-                console.log("DRY ->> AUTO");
+                console.log("DRY ->> HEATING");
                 res.send(JSON.stringify({
-                    operation_mode: 'AUTO'
+                    operation_mode: 'Heating'
                 }));
             });
-            client.publish(topic, 'AUTO', { qos: 0, retain: false }, (error) => {
+            client.publish(topic, 'Heating', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
+        }
+        else if (operation_mode == "Heating"){
+            var sql = "UPDATE air_conditioner_data SET operation_mode ='Auto'";
+            connection.query(sql, function (err, result) {
+                console.log("Heating ->> AUTO");
+                res.send(JSON.stringify({
+                    operation_mode: 'Auto'
+                }));
+            });
+            client.publish(topic, 'Auto', { qos: 0, retain: false }, (error) => {
                 if (error) {
                   console.error(error)
                 }
@@ -390,6 +408,160 @@ router.post('/dataTemp', (req, res) => {
                 t2 : t2,
                 t3 : t3 
         }));
+    });
+})
+
+router.post('/changeFlow', (req, res) => {
+    var sql = 'SELECT * FROM air_conditioner_data';
+    connection.query(sql,function (err, result) {
+        var data =  JSON.parse(JSON.stringify(result));
+        var Flow_rate = data[0].air_flow_rate;
+        //console.log(status);
+        if (Flow_rate == "Low"){
+            var sql = "UPDATE air_conditioner_data SET air_flow_rate ='Mid'";
+            connection.query(sql, function (err, result) {
+                console.log("Low -> Mid");
+                res.send( JSON.stringify({
+                    Flow_rate:'Mid'
+                }));
+            });
+            client.publish(topic, 'Flow_Mid', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
+        }
+        else if (Flow_rate == "Mid"){
+            var sql = "UPDATE air_conditioner_data SET air_flow_rate ='High'";
+            connection.query(sql, function (err, result) {
+                console.log("Mid ->> High");
+                res.send(JSON.stringify({
+                    Flow_rate: 'High'
+                }));
+            });
+            client.publish(topic, 'Flow_High', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
+        }
+        else if (Flow_rate == "High"){
+            var sql = "UPDATE air_conditioner_data SET air_flow_rate ='Auto'";
+            connection.query(sql, function (err, result) {
+                console.log("High ->> AUTO");
+                res.send(JSON.stringify({
+                    Flow_rate: 'Auto'
+                }));
+            });
+            client.publish(topic, 'Flow_Auto', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
+        }
+        else if (Flow_rate == "Auto"){
+            var sql = "UPDATE air_conditioner_data SET air_flow_rate ='Low'";
+            connection.query(sql, function (err, result) {
+                console.log("Auto ->> Low");
+                res.send(JSON.stringify({
+                    Flow_rate: 'Low'
+                }));
+            });
+            client.publish(topic, 'Flow_Low', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
+        }
+    });
+})
+
+
+router.post('/changePowerSaving', (req, res) => {
+    var sql = 'SELECT * FROM air_conditioner_data';
+    connection.query(sql,function (err, result) {
+        var data =  JSON.parse(JSON.stringify(result));
+        var power_saving = data[0].power_saving;
+        //console.log(status);
+        if (power_saving == "PowerSaving"){
+            var sql = "UPDATE air_conditioner_data SET power_saving ='Normal'";
+            connection.query(sql, function (err, result) {
+                console.log("PowerSaving -> Normal");
+                res.send( JSON.stringify({
+                    power_saving:'Normal'
+                }));
+            });
+            client.publish(topic, 'Normal', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
+        }
+        else if (power_saving == "Normal"){
+            var sql = "UPDATE air_conditioner_data SET power_saving ='PowerSaving'";
+            connection.query(sql, function (err, result) {
+                console.log("Normal ->> PowerSaving");
+                res.send(JSON.stringify({
+                    power_saving: 'Power Saving'
+                }));
+            });
+            client.publish(topic, 'Power', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
+        }
+    });
+})
+
+router.post('/changeDirection_vertical', (req, res) => {
+    var sql = 'SELECT * FROM air_conditioner_data';
+    connection.query(sql,function (err, result) {
+        var data =  JSON.parse(JSON.stringify(result));
+        var direction = data[0].direction_vertical;
+        //console.log(status);
+        if (direction == "Up"){
+            var sql = "UPDATE air_conditioner_data SET direction_vertical ='Central'";
+            connection.query(sql, function (err, result) {
+                console.log("Up -> Central");
+                res.send( JSON.stringify({
+                    direction:'Central'
+                }));
+            });
+            client.publish(topic, 'Central_Direction_Vertical', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
+        }
+        else if (direction == "Central"){
+            var sql = "UPDATE air_conditioner_data SET direction_vertical ='Down'";
+            connection.query(sql, function (err, result) {
+                console.log("Central ->> Dow");
+                res.send(JSON.stringify({
+                    direction: 'Down'
+                }));
+            });
+            client.publish(topic, 'Down_Vertical', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
+        }
+        else if (direction == "Down"){
+            var sql = "UPDATE air_conditioner_data SET direction_vertical ='Up'";
+            connection.query(sql, function (err, result) {
+                console.log("Dow ->> Up");
+                res.send(JSON.stringify({
+                    direction: 'Up'
+                }));
+            });
+            client.publish(topic, 'Up_Vertical', { qos: 0, retain: false }, (error) => {
+                if (error) {
+                  console.error(error)
+                }
+            })
+        }
     });
 })
 
