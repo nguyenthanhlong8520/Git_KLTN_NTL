@@ -1,0 +1,6 @@
+1. PC connect to UET WIFI. Mobile connect to PC.
+2. Open mobile hostpost. Controller will be auto connect to post.
+3. open visual studio for code app. check BASE URL and change at src app
+4. Mobile phone and app same wifi. Connect mobile to UET-WIFI
+5. Nếu BASE URL ko đúng ko login vào đc, check đúng URL
+6. account mqtt 9620
