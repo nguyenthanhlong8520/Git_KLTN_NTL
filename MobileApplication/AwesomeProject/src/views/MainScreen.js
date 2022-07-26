@@ -45,9 +45,11 @@ export default HomeScreen = ({ navigation }) => {
           //console.log(data.temperature_value);
           setStatus(data['operation_status']);
           setTemp(data['temperature_value']);
+          var milliseconds = (new Date()).getMilliseconds();
+          console.log(milliseconds);
         })
         .catch(e => {
-          console.log(`login error ${e}`);
+          console.log(`change status error ${e}`);
         }); 
     };
 
@@ -58,9 +60,11 @@ export default HomeScreen = ({ navigation }) => {
           var data =  JSON.parse(JSON.stringify(res.data));
           var temp_value = data['temp_value'];
           setTemp(temp_value)
+          var milliseconds = (new Date()).getMilliseconds();
+          console.log(milliseconds);
         })
         .catch(e => {
-          console.log(`login error ${e}`);
+          console.log(`increase error ${e}`);
         }); 
     };
 
@@ -72,9 +76,11 @@ export default HomeScreen = ({ navigation }) => {
           var data =  JSON.parse(JSON.stringify(res.data));
           var temp_value = data['temp_value'];
           setTemp(temp_value)
+          var milliseconds = (new Date()).getMilliseconds();
+          console.log(milliseconds);
         })
         .catch(e => {
-          console.log(`login error ${e}`);
+          console.log(`decrease error ${e}`);
         }); 
     };
 
@@ -83,12 +89,15 @@ export default HomeScreen = ({ navigation }) => {
         .post(`${BASE_URL}/remote/changeMode`)
         .then(res => {
           console.log(res.data);
+          var milliseconds = (new Date()).getMilliseconds();
+          console.log(milliseconds);
           var data =  JSON.parse(JSON.stringify(res.data));
           var mode = data['operation_mode'];
           setMode(mode)
+          
         })
         .catch(e => {
-          console.log(`login error ${e}`);
+          console.log(`change mode error ${e}`);
         }); 
     };
 
@@ -97,12 +106,14 @@ export default HomeScreen = ({ navigation }) => {
         .post(`${BASE_URL}/remote/changeFlow`)
         .then(res => {
           console.log(res.data);
+          var milliseconds = (new Date()).getMilliseconds();
+          console.log(milliseconds);
           var data =  JSON.parse(JSON.stringify(res.data));
           var flow = data['Flow_rate'];
           setFlow(flow)
         })
         .catch(e => {
-          console.log(`login error ${e}`);
+          console.log(`change flow error ${e}`);
         }); 
     };
 
@@ -114,9 +125,11 @@ export default HomeScreen = ({ navigation }) => {
           var data =  JSON.parse(JSON.stringify(res.data));
           var power_saving = data['power_saving'];
           setPowerSaving(power_saving)
+          var milliseconds = (new Date()).getMilliseconds();
+          console.log(milliseconds);
         })
         .catch(e => {
-          console.log(`login error ${e}`);
+          console.log(`change power saving error ${e}`);
         }); 
     };
 
@@ -128,9 +141,11 @@ export default HomeScreen = ({ navigation }) => {
           var data =  JSON.parse(JSON.stringify(res.data));
           var direction = data['direction'];
           setSetDirection(direction)
+          var milliseconds = (new Date()).getMilliseconds();
+          console.log(milliseconds);
         })
         .catch(e => {
-          console.log(`login error ${e}`);
+          console.log(`change direction error ${e}`);
         }); 
     };
 

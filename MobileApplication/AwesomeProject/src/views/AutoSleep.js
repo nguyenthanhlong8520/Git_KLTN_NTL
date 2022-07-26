@@ -48,6 +48,8 @@ export default Setting = ({ navigation }) => {
         .post(`${BASE_URL}/remote/statusAutonatic`)
         .then(res => {
           console.log(res.data);
+          var milliseconds = (new Date()).getMilliseconds();
+          console.log(milliseconds);
           var data =  JSON.parse(JSON.stringify(res.data));
           //var temp = res.data[0].temperature_value;
           //console.log(data.temperature_value);
