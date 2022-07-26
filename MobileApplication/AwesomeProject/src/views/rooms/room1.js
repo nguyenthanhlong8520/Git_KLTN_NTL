@@ -66,6 +66,32 @@ const ViewBoxesWithColorAndText = ({navigation}) => {
                 />
                 </View>
             </View>
+            <View
+                style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                left:120,
+                width: '40%',
+                alignItems: 'center',
+                marginTop: 20
+                }}>
+                <View style={{width: 10}}></View>
+               
+                <View style={STYLES.btnSecondary}>
+                <TouchableOpacity
+                onPress = {() => {
+                    // navigation.navigate('ControlAir');
+                }}
+                >
+                <Text style={{fontSize: 16,  fontFamily:"Cochin", fontWeight: 'bold'}}>Temperature and Humidity Sensor</Text>
+                </TouchableOpacity>
+                
+                <Image
+                    style={STYLES.btnImage}
+                    source={require('../../img/sensor.png')}
+                />
+                </View>
+            </View>
         </View>
     </SafeAreaView>
 </ImageBackground>

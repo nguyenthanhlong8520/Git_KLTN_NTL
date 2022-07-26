@@ -130,7 +130,7 @@ export default HomeScreen = ({ navigation }) => {
         })
         .catch(e => {
           console.log(`change power saving error ${e}`);
-        }); 
+        });   
     };
 
     const changeDirection = () => {
