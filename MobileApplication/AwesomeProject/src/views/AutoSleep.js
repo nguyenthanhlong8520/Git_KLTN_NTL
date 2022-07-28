@@ -34,7 +34,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 export default Setting = ({ navigation }) => {
-    const [status, setStatus] = useState('OFF');
+    const [status, setStatus] = useState('ON');
     const [temp, setTemp] = useState('12');
     const [mode, setMode] = useState('AUTO');
 
@@ -61,12 +61,10 @@ export default Setting = ({ navigation }) => {
         }); 
     };
 
-    const Confirm = (tempStart, tempMax, timeStart) => {
-        console.log("Clicked !!!")
+    const Confirm = (timeStart) => {
+        //console.log("Clicked !!!")
         axios
           .post(`${BASE_URL}/remote/setParamsAutomatic`, {
-            tempStart,
-            tempMax,
             timeStart
           })
           .then(res => {
@@ -78,7 +76,7 @@ export default Setting = ({ navigation }) => {
           .catch(e => {
             console.log(`error ${e}`);
           });
-      };
+    };
 
     return (
         <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../img/bg1.jpg')} resizeMode='stretch'>
@@ -95,14 +93,13 @@ export default Setting = ({ navigation }) => {
                                     data: [
                                     t0,
                                     t1,
-                                    tmax,
                                     t2,
                                     t3
                                     ]
                                 }
                                 ]
                             }}
-                            width={Dimensions.get("window").width + 40} // from react-native
+                            width={Dimensions.get("window").width + 50} // from react-native
                             height={210}
                             yAxisLabel=""
                             yAxisSuffix="°C"
@@ -139,7 +136,7 @@ export default Setting = ({ navigation }) => {
                         <Text style={{fontFamily:"Cochin", color: 'black', 
                                       fontWeight: 'bold', fontSize:19, top:15}}>Automatic Temperature Regulation</Text>
                     </View>
-                    <View style={{width:'92.5%', height:'30%', alignItems: 'center', borderWidth:1, borderColor:'#a5a5a5', flex:'column', 
+                    <View style={{width:'92.5%', height:'15%', alignItems: 'center', borderWidth:1, borderColor:'#a5a5a5', flex:'column', 
                             right: 16,
                             left: 16,
                             borderRadius: 16,
@@ -152,13 +149,16 @@ export default Setting = ({ navigation }) => {
                             <TouchableOpacity style={{height: '170%', width: '26%', marginTop: -10, left:140, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
                                         onPress = {() => {
                                             statusSleepMode();
+                                            let timeStart = new Date().toLocaleTimeString();
+                                            dataChart();
+                                            Confirm(timeStart);
                                         }}
                                         >
                                         <Text style={{color: '#000', fontWeight: 'bold', fontSize: 18, fontFamily:"Cochin"}}>ON/OFF</Text>
                             </TouchableOpacity>
                         </View>
                         
-                        <View style={{ width:'75%', height:23, flexDirection: 'row', marginTop:30, right: 25}}>
+                        {/* <View style={{ width:'75%', height:23, flexDirection: 'row', marginTop:30, right: 25}}>
                             <Text style={{color: '#000', fontWeight: 'bold', fontSize: 20, fontFamily:"Cochin"}}>Temperature Start</Text>
                             <TextInput 
                                 style={{width:'24%', height:'130%', borderWidth:1, left: 120}}
@@ -174,9 +174,9 @@ export default Setting = ({ navigation }) => {
                                 value={tempMax}
                                 onChangeText={text => setTempMax(text)}
                             />
-                        </View>
+                        </View> */}
 
-                        <View style={{height: '20%', width: '100%', marginTop: 0.01*windowHeight, justifyContent: 'center', alignItems: 'center' }}>
+                        {/* <View style={{height: '20%', width: '100%', marginTop: 0.01*windowHeight, justifyContent: 'center', alignItems: 'center' }}>
                         <TouchableOpacity style={{height: '80%', width: '30%', marginTop: 7, alignItems: 'center', justifyContent: 'center', borderWidth:1}}
                                         onPress = {() => {
                                             let timeStart = new Date().toLocaleTimeString();
@@ -186,8 +186,7 @@ export default Setting = ({ navigation }) => {
                                         >
                                         <Text style={{color: '#000', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin"}}>Confirm</Text>
                         </TouchableOpacity> 
-                        </View>
- 
+                        </View> */}
                     </View>
                 </View>
             </SafeAreaView>

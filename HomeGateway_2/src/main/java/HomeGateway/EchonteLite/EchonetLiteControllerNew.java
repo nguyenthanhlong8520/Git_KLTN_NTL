@@ -63,7 +63,18 @@ public class EchonetLiteControllerNew {
                             return;
                         }
                         int Temperature = ConvertByteToInt(property.edt);
-                        System.out.println("Temperature " + Temperature);
+                        System.out.println("Temperature of room " + Temperature);
+                    }
+
+                    @Override
+                    protected void onGetMeasuredOutdoorAirTemperature(EchoObject eoj, short tid, byte esv, EchoProperty property, boolean success) {
+                        super.onGetMeasuredOutdoorAirTemperature(eoj, tid, esv, property, success);
+                        if(!success){
+                            System.out.println("Can't get any value");
+                            return;
+                        }
+                        int Temperature = ConvertByteToInt(property.edt);
+                        System.out.println("Temperature outdoor of room " + Temperature);
                     }
 
                     @Override
@@ -80,7 +91,8 @@ public class EchonetLiteControllerNew {
 
                 });
                 try{
-                      device.get().reqGetMeasuredValueOfRoomTemperature().send();
+//                      device.get().reqGetMeasuredValueOfRoomTemperature().send();
+//                      device.get().reqGetMeasuredOutdoorAirTemperature().send();
                       System.out.println(device.getNode().getAddressStr());
 //                    device.get().reqGetMeasuredValueOfCurrentConsumption().send();
                       //device.get().reqGetGetPropertyMap().send();

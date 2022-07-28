@@ -4,3 +4,6 @@
 4. Mobile phone and app same wifi. Connect mobile to UET-WIFI
 5. Nếu BASE URL ko đúng ko login vào đc, check đúng URL
 6. account mqtt 9620
+7. điện thoại phát wifi, laptop connect vào mạng điện thoại. Điện thoại connect vào mạng của controller cùng 1 lúc đc. Mở app Check.
+8. Chú ý chế độ khi điều chỉnh nhiệt độ, cool thì mới tăNG giảm đc
+

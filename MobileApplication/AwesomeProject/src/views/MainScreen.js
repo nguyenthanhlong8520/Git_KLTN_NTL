@@ -13,7 +13,6 @@ import {
 } from 'react-native'
 import { AuthContext } from "../context/AuthContext";
 import Spinner from "react-native-loading-spinner-overlay/lib";
-
 import COLORS from '../Style/Color';
 import STYLES from '../Style/Style';
 import { NavigationContainer } from "@react-navigation/native";
@@ -27,13 +26,12 @@ const windowHeight = Dimensions.get('window').height;
 export default HomeScreen = ({ navigation }) => {
     const [status, setStatus] = useState('OFF');
     const [booleanStatus, setBoleanStatus] = useState('OFF');
-    const [temp, setTemp] = useState('12');
+    const [temp, setTemp] = useState('25');
     const [mode, setMode] = useState('DRY');
     const [flow, setFlow] = useState('HIGH');
-    const [powerSaving, setPowerSaving] = useState('PowerSaving');
+    const [powerSaving, setPowerSaving] = useState('Power Saving');
     const [direction, setSetDirection] = useState('UP');
     const {dataChart} = useContext(AuthContext);
-
 
     const changeStatus = () => {
         axios
@@ -175,7 +173,7 @@ export default HomeScreen = ({ navigation }) => {
                                         <Text style={{color: '#327DFA', fontWeight: 'bold', fontSize: 16, fontFamily:"Cochin",top:-5}}>{mode}</Text>
                             </TouchableOpacity>
                             </View>
-                    </View>
+                  </View>
                     <View style={{ width:'75%', 
                                    height:20, 
                                    flexDirection: 'row', 
@@ -221,8 +219,7 @@ export default HomeScreen = ({ navigation }) => {
                             </TouchableOpacity>
                             </View>
                     </View>
-
-                    <View style={{
+                    <View style = {{
                             marginBottom: 65, top: 110, alignItems: 'center', 
                             flex:'column', 
                             right: 16,
@@ -239,7 +236,6 @@ export default HomeScreen = ({ navigation }) => {
                             inActiveStrokeColor={'#9b59b6'}                          
                             fontSize= {20}
                             valueSuffix={'°C'}
-                            
                         />
                     </View>
                     <View style={{ width:'75%', 
@@ -249,10 +245,11 @@ export default HomeScreen = ({ navigation }) => {
                                    alignItems: 'center', 
                                    justifyContent: 'center',
                                    left:35,
+                                   borderRadius:16
                                 }}>
                             <TouchableOpacity style={{height: '370%', width: '25%', marginTop: 0, 
                                                       marginRight:100, marginLeft:55, alignItems: 'center', 
-                                                      justifyContent: 'center', borderWidth:1, borderRadius: 48}}
+                                                      justifyContent: 'center', borderWidth:1, borderRadius: 48, backgroundColor:"white"}}
                                         onPress = {() => {
                                             increaseTemp();
                                         }}
@@ -276,7 +273,7 @@ export default HomeScreen = ({ navigation }) => {
                             </TouchableOpacity>
                             <TouchableOpacity style={{height: '370%', width: '25%',alignItems: 'center', 
                                                       justifyContent: 'center', 
-                                                      borderWidth:1, borderRadius: 48}}
+                                                      borderWidth:1, borderRadius: 48, backgroundColor:"white"}}
                                         onPress = {() => {
                                             decreaseTemp();
                                         }}
@@ -290,7 +287,7 @@ export default HomeScreen = ({ navigation }) => {
                                    marginTop:130, 
                                    alignItems: 'center', 
                                    justifyContent: 'center',
-                                   left:35,
+                                   left:65,
                                 }}>
                             <TouchableOpacity style={{height: '370%', width: '25%', marginTop: 0, 
                                                       marginRight:100, marginLeft:55, alignItems: 'center', 
@@ -313,38 +310,7 @@ export default HomeScreen = ({ navigation }) => {
                                                 <Image source={require('../img/auto_sleep.png')} style={{top:3}}/>
                                 <Text style={{color: '#000', fontWeight: 'bold', fontSize: 17, fontFamily:"Cochin", marginTop:4}}>Auto Sleep</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{height: '370%', width: '25%',alignItems: 'center', 
-                                                      justifyContent: 'center', 
-                                                      borderWidth:1, borderRadius: 18}}
-                                        onPress = {() => {
-                                            decreaseTemp();
-                                        }}
-                                        >
-                                        <Text style={{color: '#000', fontWeight: 'bold', fontSize: 32, fontFamily:"Cochin", marginTop:-8}}>-</Text>
-                            </TouchableOpacity>  
                     </View>
-                    
-                    {/* <View style={{height:'5%', width:'120%', marginBottom: 10, alignItems: 'center',
-                                 flex:'column', 
-                                 right: 10, left:13,
-                                 fontFamily:"Cochin",
-                                 top:90
-                        }}>
-                        <TouchableOpacity style={{height: '205%', width: '25%', 
-                                                      marginRight:100, marginLeft:24, alignItems: 'center', 
-                                                      justifyContent: 'center', borderWidth:1,  borderRadius: 15, 
-                                                      borderColor:"#34C7BA", backgroundColor:"#34C7BA"
-                                                     }}
-                                        onPress = {() => {
-                                            // changeMode();
-                                            dataChart();
-                                            navigation.navigate('setting');
-                                        }}
-                                        >
-                                        <Image source={require('../img/auto_sleep.png')} style={{top:3}}/>
-                                        <Text style={{right: 0, color: '#000', fontWeight: 'bold', fontSize: 14, fontFamily:"Cochin", marginTop:0}}>Auto Temperature</Text>
-                            </TouchableOpacity>
-                    </View> */}
                 </View>
             </SafeAreaView>
         </ImageBackground>

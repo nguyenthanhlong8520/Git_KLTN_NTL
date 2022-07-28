@@ -32,36 +32,96 @@ client.on('message', (topic, payload) => {
     console.log('Received Message:', topic, payload.toString())
 })
 
+function temperature_phase(value, x)
+{
+    var flagg, data;
+    var sql = 'SELECT * FROM air_conditioner_data';
+    connection.query(sql, function (err, result) {
+        if (err) throw err;
+        data =  JSON.parse(JSON.stringify(result));
+        flagg = data[0].temperature_value;
+        
+        if(value == 0){
+            var sql_ = 'UPDATE data_auto SET temp_0 = "' + flagg + '" where id = 82';
+            connection.query(sql_, function (err, result) {
+                if (err) throw err;
+            });  
+           
+        }
+        else if (value == 1){
+            var sql_ = 'UPDATE data_auto SET temp_1 = "' + flagg + '" where id = 82';
+            connection.query(sql_, function (err, result) {
+                if (err) throw err;
+            });   
+              
+        }
+        else if (value == 2){
+            var sql_ = 'UPDATE data_auto SET temp_2 = "' + flagg + '" where id = 82';
+            connection.query(sql_, function (err, result) {
+                if (err) throw err;  
+            });   
+              
+        }
+        else if (value == 3){
+            var sql_ = 'UPDATE data_auto SET temp_3 = "' + flagg + '" where id = 82';
+            connection.query(sql_, function (err, result) {
+                if (err) throw err;
+            });   
+            var sql_ = 'UPDATE auto_sleep SET t3 = "' + x + '" where id = 1';
+            connection.query(sql_, function (err, result) {
+                if (err) throw err;
+            });   
+        }
+    });
+}
+
+function flag(t1, t2, t3, t4)
+{
+    var sql = 'SELECT * FROM auto_sleep';
+    connection.query(sql, function (err, result) {
+        if (err) throw err;
+        var data =  JSON.parse(JSON.stringify(result));
+        var flagg = data[0].tmax;
+        if( flagg == 1 ){
+            // insert
+            var sql = 'select * from data_auto where id = 82';
+            connection.query(sql, function (err, result) {
+                data =  JSON.parse(JSON.stringify(result));
+                var data_ = {temp_0: data[0].temp_0, temp_1: data[0].temp_1, temp_2: data[0].temp_2, temp_3: data[0].temp_3};
+                var sql = "INSERT INTO data_auto SET ?";                
+                connection.query(sql, data_, function (err, result) {
+                if (err) throw err;
+                });
+            });
+
+            var sql = "UPDATE auto_sleep SET modeAutoSleep = 'OFF'";                
+            connection.query(sql, function (err, result) {
+            if (err) throw err;
+            });
+
+            var sql = "UPDATE auto_sleep SET tmax = 0";                
+            connection.query(sql, function (err, result) {
+            if (err) throw err;
+            });  
+        }
+    });
+}
+
 const myFunc = () => {
     var timeNow = new Date().toISOString().match(/(\d{2}:){2}\d{2}/)[0];
     timeNow = addTimes(timeNow, '07:00:00');
     //console.log(timeNow);
     var sql = 'SELECT * FROM auto_sleep';
-    connection.query(sql,function (err, result) {
+    connection.query(sql, function (err, result) {
         var data =  JSON.parse(JSON.stringify(result));
         var modeAutoSleep = data[0].modeAutoSleep;
-        var temp_value;
-        var message_mqtt = String(temp_value);
         if (modeAutoSleep == "ON"){
-                // AUTO
-                var time_0 = data[0].time_0;
-                var time_1 = data[0].time_1;
-                var time_2 = data[0].time_2;
-                var time_3 = data[0].time_3;
-                var time_4 = data[0].time_4;
-                // var time_4 = data[0].time_4;
-
-                var t0 = String(data[0].t0);
-                var t1 = String(data[0].t1);
-                var t2 = String(data[0].t2);
-                var t3 = String(data[0].t3 );
-
-                //console.log(time_0 + " " + time_1 + " " + time_2 + " " + time_3 + " " + time_4);
-
-                if (time_0 < timeNow && time_1 > timeNow){
+                if (data[0].time_0 < timeNow && data[0].time_1 > timeNow){
                     // to do
                     console.log("parse 1");
-                    client.publish(topic, t0, { qos: 0, retain: false }, (error) => {
+                    temperature_phase(0);
+                    //console.log(t1)
+                    client.publish(topic, String(data[0].t0), { qos: 0, retain: false }, (error) => {
                         if (error) {
                           console.error(error)
                         }
@@ -73,10 +133,11 @@ const myFunc = () => {
                         }
                     })
                 }
-                else if (time_1 < timeNow && time_2 > timeNow){
+                else if (data[0].time_1 < timeNow && data[0].time_2 > timeNow){
                     // to do
                     console.log("parse 2");
-                    client.publish(topic, t1, { qos: 0, retain: false }, (error) => {
+                    temperature_phase(1);
+                    client.publish(topic, String(data[0].t1), { qos: 0, retain: false }, (error) => {
                         if (error) {
                           console.error(error)
                         }
@@ -87,10 +148,11 @@ const myFunc = () => {
                         }
                     })
                 }
-                else if (time_2 < timeNow && time_3 > timeNow){
+                else if (data[0].time_2 < timeNow && data[0].time_3 > timeNow){
                     // to do
                     console.log("parse 3");
-                    client.publish(topic, t2, { qos: 0, retain: false }, (error) => {
+                    temperature_phase(2);
+                    client.publish(topic, String(data[0].t2), { qos: 0, retain: false }, (error) => {
                         if (error) {
                           console.error(error)
                         }
@@ -101,14 +163,18 @@ const myFunc = () => {
                         }
                     })
                 }
-                else if (time_3 < timeNow && time_4 > timeNow){
+                else if (data[0].time_3 < timeNow && data[0].time_4 > timeNow){
                     // todo 
                     console.log("parse 4");
-                    client.publish(topic, t3, { qos: 0, retain: false }, (error) => {
+                    temperature_phase(3);
+                    client.publish(topic, String(data[0].t3), { qos: 0, retain: false }, (error) => {
                         if (error) {
                           console.error(error)
                         }
                     })
+                }
+                else if (data[0].time_4 < timeNow){
+                    flag(25, 26, 27, 28);
                 }
         }
     });
@@ -203,6 +269,9 @@ router.post('/statusAutonatic' , (req, res) =>{
                 }));
                 // MQTT
             });
+            var sql = "UPDATE auto_sleep SET tmax = 1";
+            connection.query(sql, function (err, result) {
+            });
         }
         else {
             var sql = "UPDATE auto_sleep SET modeAutoSleep ='OFF'";
@@ -221,9 +290,7 @@ router.post('/statusAutonatic' , (req, res) =>{
 })
 
 router.post('/setParamsAutomatic' , (req, res) =>{
-        
-        var tempStart = req.body.tempStart;
-        var tempMax = req.body.tempMax;
+    
         let timeStart = req.body.timeStart;
     
         // var time_1 = addTimes(timeStart, '01:00:00');
@@ -236,43 +303,10 @@ router.post('/setParamsAutomatic' , (req, res) =>{
         var time_3 = addTimes(time_2, '00:01:00');
         var time_4 = addTimes(time_3, '00:01:00');
 
-        var t1 = parseInt(tempStart) - 2;
-        var t2 = parseInt(t1) + 1;
-        var t3 = parseInt(t2) + 2;
-
-        //console.log(tempStart + " " + tempMax + " " + timeStart + " " + time_1 + " " + time_2 + " " + time_3 + " " + time_4);
-        console.log(tempStart + " " + t1 + " " + t2 + " " + t3);
-
-        var sql = "UPDATE auto_sleep SET t0 = ?";
-        connection.query(sql, tempStart, function (err, result) {
-            if (err) throw err;
-        });
-
-        // var sql = "UPDATE auto_sleep SET t1 = ?";
-        // connection.query(sql, t1, function (err, result) {
-        //     if (err) throw err;
-        // });
-
-        // var sql = "UPDATE auto_sleep SET t2 = ?";
-        // connection.query(sql, t2, function (err, result) {
-        //     if (err) throw err;
-        // });
-
-        // var sql = "UPDATE auto_sleep SET t3 = ?";
-        // connection.query(sql, t3, function (err, result) {
-        //     if (err) throw err;
-        // });
-
-        // var sql = "UPDATE auto_sleep SET tmax = ?";
-        // connection.query(sql, tempMax, function (err, result) {
-        //     if (err) throw err;
-        // });
-
         var sql = "UPDATE auto_sleep SET time_0 = ?";
         connection.query(sql, timeStart, function (err, result) {
             if (err) throw err;
         });
-
 
         var sql = "UPDATE auto_sleep SET time_1 = ?";
         connection.query(sql, time_1, function (err, result) {
@@ -412,6 +446,7 @@ router.post('/increaseTemp', (req, res) => {
     connection.query(sql,function (err, result) {
         var data =  JSON.parse(JSON.stringify(result));
         var temp_value = data[0].temperature_value + 1;
+        
         var sql = "UPDATE air_conditioner_data SET temperature_value = ?";
         var message_mqtt = String(temp_value);
         connection.query(sql, temp_value, function (err, result) {});
@@ -426,55 +461,6 @@ router.post('/increaseTemp', (req, res) => {
               console.error(error)
             }
         })
-    });
-
-    var sql = 'SELECT * FROM auto_sleep';
-    connection.query(sql,function (err, result) {
-        var data =  JSON.parse(JSON.stringify(result));
-        var modeAutoSleep = data[0].modeAutoSleep;
-        if (modeAutoSleep == "ON"){
-                // AUTO
-                var time_0 = data[0].time_0;
-                var time_1 = data[0].time_1;
-                var time_2 = data[0].time_2;
-                var time_3 = data[0].time_3;
-                // var time_4 = data[0].time_4;
-
-                if (time_0 < timeNow && time_1 > timeNow){
-                    // to do
-                    console.log("parse 1 insert");
-                    var data = {temp_0: temp_, temp_1: 25, temp_2: 25, temp_3: 25};
-                    var sql = "INSERT INTO data_auto SET ?";                
-                    connection.query(sql, data, function (err, result) {
-                        if (err) throw err;
-                    });
-                }
-                else if (time_1 < timeNow && time_2 > timeNow){
-                    // to do
-                    console.log("parse 2 insert");
-                    var data = {temp_0: 25, temp_1: temp_, temp_2: 25, temp_3: 25};
-                    var sql = "INSERT INTO data_auto SET ?";                
-                    connection.query(sql, data, function (err, result) {
-                        if (err) throw err;
-                    });
-                }
-                else if (time_2 < timeNow && time_3 > timeNow){
-                    // to do
-                    console.log("parse 3 insert");
-                    var data = {temp_0: 25, temp_1: 25, temp_2: temp_, temp_3: 25};
-                    var sql = "INSERT INTO data_auto SET ?";                
-                    connection.query(sql, data, function (err, result) {
-                        if (err) throw err;
-                    });
-                }
-                else {
-                    var data = {temp_0: 25, temp_1: 25, temp_2: 25, temp_3: temp_};
-                    var sql = "INSERT INTO data_auto SET ?";                
-                    connection.query(sql, data, function (err, result) {
-                        if (err) throw err;
-                    });
-                }
-       }
     });
 })
 
@@ -499,55 +485,6 @@ router.post('/decreaseTemp', (req, res) => {
               console.error(error)
             }
         })
-    });
-
-    var sql = 'SELECT * FROM auto_sleep';
-    connection.query(sql,function (err, result) {
-        var data =  JSON.parse(JSON.stringify(result));
-        var modeAutoSleep = data[0].modeAutoSleep;
-        if (modeAutoSleep == "ON"){
-                // AUTO
-                var time_0 = data[0].time_0;
-                var time_1 = data[0].time_1;
-                var time_2 = data[0].time_2;
-                var time_3 = data[0].time_3;
-                // var time_4 = data[0].time_4;
-
-                if (time_0 < timeNow && time_1 > timeNow){
-                    // to do
-                    console.log("parse 1 insert");
-                    var data = {temp_0: temp_, temp_1: 25, temp_2: 25, temp_3: 25};
-                    var sql = "INSERT INTO data_auto SET ?";                
-                    connection.query(sql, data, function (err, result) {
-                        if (err) throw err;
-                    });
-                }
-                else if (time_1 < timeNow && time_2 > timeNow){
-                    // to do
-                    console.log("parse 2 insert");
-                    var data = {temp_0: 25, temp_1: temp_, temp_2: 25, temp_3: 25};
-                    var sql = "INSERT INTO data_auto SET ?";                
-                    connection.query(sql, data, function (err, result) {
-                        if (err) throw err;
-                    });
-                }
-                else if (time_2 < timeNow && time_3 > timeNow){
-                    // to do
-                    console.log("parse 3 insert");
-                    var data = {temp_0: 25, temp_1: 25, temp_2: temp_, temp_3: 25};
-                    var sql = "INSERT INTO data_auto SET ?";                
-                    connection.query(sql, data, function (err, result) {
-                        if (err) throw err;
-                    });
-                }
-                else {
-                    var data = {temp_0: 25, temp_1: 25, temp_2: 25, temp_3: temp_};
-                    var sql = "INSERT INTO data_auto SET ?";                
-                    connection.query(sql, data, function (err, result) {
-                        if (err) throw err;
-                    });
-                }
-       }
     });
 })
 

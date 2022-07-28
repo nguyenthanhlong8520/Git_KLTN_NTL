@@ -61,6 +61,7 @@ public class Main {
                 Calendar dob = Calendar.getInstance();
                 long justMillis = dob.getTimeInMillis() % 1000;
                 System.out.println(justMillis);
+
                 if(object_airConditioner.airConditioner.size() != 0){
                     for(DeviceObject dev : object_airConditioner.airConditioner){
                         //IF ELSE MAC ADDRES
@@ -93,28 +94,34 @@ public class Main {
 
                         // direction phuong dung
                         if(message.toString().equals("Up_Vertical")){
-                            byte c = Integer.valueOf(0xA4).byteValue();
+                            byte c = Integer.valueOf(0xA3).byteValue();
                             byte[] d = BigInteger.valueOf(0x41).toByteArray();
                             dev.set().reqSetProperty(c, d).send();
                             System.out.println("Up vertical");
                         }
                         else if(message.toString().equals("Down_Vertical")){
-                            byte c = Integer.valueOf(0xA4).byteValue();
+                            byte c = Integer.valueOf(0xA3).byteValue();
                             byte[] d = BigInteger.valueOf(0x42).toByteArray();
                             dev.set().reqSetProperty(c, d).send();
                             System.out.println("Down vertical");
                         }
                         else if(message.toString().equals("Central_Direction_Vertical")){
-                            byte c = Integer.valueOf(0xA4).byteValue();
-                            byte[] d = BigInteger.valueOf(0x44).toByteArray();
+                            byte c = Integer.valueOf(0xA3).byteValue();
+                            byte[] d = BigInteger.valueOf(0x31).toByteArray();
                             dev.set().reqSetProperty(c, d).send();
-                            System.out.println("Central vertical");
+                            System.out.println("Not Use");
                         }
 
                         // phuong ngang
-                        byte e = Integer.valueOf(0xA5).byteValue();
-                        byte[] f = BigInteger.valueOf(0x41).toByteArray();
-                        dev.set().reqSetProperty(e, f).send();
+//                        byte e = Integer.valueOf(0xA5).byteValue();
+//                        byte[] f = BigInteger.valueOf(0x41).toByteArray();
+//                        dev.set().reqSetProperty(e, f).send();
+
+                        byte temp_outdoor = BigInteger.valueOf(0xBE).byteValue();
+                        dev.get().reqGetProperty(temp_outdoor).send();
+
+                        byte temp_room = BigInteger.valueOf(0xBB).byteValue();
+                        dev.get().reqGetProperty(temp_room).send();
 
                         // status of air-conditioner
                         if (message.toString().equals("ON")){
@@ -141,7 +148,7 @@ public class Main {
                         }
                         else if (message.toString().equals("Dry")){
                             byte epcByte = Integer.valueOf(0xB0).byteValue();
-                            byte[] edtByteArr = BigInteger.valueOf(0x433).toByteArray();
+                            byte[] edtByteArr = BigInteger.valueOf(0x44).toByteArray();
                             dev.set().reqSetProperty(epcByte, edtByteArr).send();
                             System.out.println("Air conditioner is DRY MODE");
                         }
