@@ -32,7 +32,7 @@ client.on('message', (topic, payload) => {
     console.log('Received Message:', topic, payload.toString())
 })
 
-function temperature_phase(value, x)
+function temperature_phase(value)
 {
     var flagg, data;
     var sql = 'SELECT * FROM air_conditioner_data';
@@ -46,7 +46,6 @@ function temperature_phase(value, x)
             connection.query(sql_, function (err, result) {
                 if (err) throw err;
             });  
-           
         }
         else if (value == 1){
             var sql_ = 'UPDATE data_auto SET temp_1 = "' + flagg + '" where id = 82';
@@ -67,15 +66,15 @@ function temperature_phase(value, x)
             connection.query(sql_, function (err, result) {
                 if (err) throw err;
             });   
-            var sql_ = 'UPDATE auto_sleep SET t3 = "' + x + '" where id = 1';
-            connection.query(sql_, function (err, result) {
-                if (err) throw err;
-            });   
+            // var sql_ = 'UPDATE auto_sleep SET t3 = "' + x + '" where id = 1';
+            // connection.query(sql_, function (err, result) {
+            //     if (err) throw err;
+            // });   
         }
     });
 }
 
-function flag(t1, t2, t3, t4)
+function flag()
 {
     var sql = 'SELECT * FROM auto_sleep';
     connection.query(sql, function (err, result) {
@@ -102,7 +101,9 @@ function flag(t1, t2, t3, t4)
             var sql = "UPDATE auto_sleep SET tmax = 0";                
             connection.query(sql, function (err, result) {
             if (err) throw err;
-            });  
+            });
+
+            console.log("AUTO FINISHED !!!");
         }
     });
 }
@@ -116,10 +117,10 @@ const myFunc = () => {
         var data =  JSON.parse(JSON.stringify(result));
         var modeAutoSleep = data[0].modeAutoSleep;
         if (modeAutoSleep == "ON"){
-                if (data[0].time_0 < timeNow && data[0].time_1 > timeNow){
+                if (data[0].time_0 < timeNow && data[0].time_1 > timeNow && data[0].flag_1 == 1){
                     // to do
                     console.log("parse 1");
-                    temperature_phase(0);
+                    //temperature_phase(0);
                     //console.log(t1)
                     client.publish(topic, String(data[0].t0), { qos: 0, retain: false }, (error) => {
                         if (error) {
@@ -132,11 +133,15 @@ const myFunc = () => {
                           console.error(error)
                         }
                     })
+
+                    var sql_ = "UPDATE auto_sleep SET flag_1 = 0";
+                    connection.query(sql_, function (err, result) {
+                    });
                 }
-                else if (data[0].time_1 < timeNow && data[0].time_2 > timeNow){
+                else if (data[0].time_1 < timeNow && data[0].time_2 > timeNow && data[0].flag_2 == 1){
                     // to do
                     console.log("parse 2");
-                    temperature_phase(1);
+                    temperature_phase(0);
                     client.publish(topic, String(data[0].t1), { qos: 0, retain: false }, (error) => {
                         if (error) {
                           console.error(error)
@@ -147,11 +152,15 @@ const myFunc = () => {
                           console.error(error)
                         }
                     })
+
+                    var sql_ = "UPDATE auto_sleep SET flag_2 = 0";
+                    connection.query(sql_, function (err, result) {
+                    });                   
                 }
-                else if (data[0].time_2 < timeNow && data[0].time_3 > timeNow){
+                else if (data[0].time_2 < timeNow && data[0].time_3 > timeNow && data[0].flag_3 == 1){
                     // to do
                     console.log("parse 3");
-                    temperature_phase(2);
+                    temperature_phase(1);
                     client.publish(topic, String(data[0].t2), { qos: 0, retain: false }, (error) => {
                         if (error) {
                           console.error(error)
@@ -162,19 +171,26 @@ const myFunc = () => {
                           console.error(error)
                         }
                     })
+                    var sql_ = "UPDATE auto_sleep SET flag_3 = 0";
+                    connection.query(sql_, function (err, result) {
+                    });
                 }
-                else if (data[0].time_3 < timeNow && data[0].time_4 > timeNow){
+                else if (data[0].time_3 < timeNow && data[0].time_4 > timeNow && data[0].flag_4 == 1){
                     // todo 
                     console.log("parse 4");
-                    temperature_phase(3);
+                    temperature_phase(2);
                     client.publish(topic, String(data[0].t3), { qos: 0, retain: false }, (error) => {
                         if (error) {
                           console.error(error)
                         }
                     })
+                    var sql_ = "UPDATE auto_sleep SET flag_4 = 0";
+                    connection.query(sql_, function (err, result) {
+                    });
                 }
                 else if (data[0].time_4 < timeNow){
-                    flag(25, 26, 27, 28);
+                    temperature_phase(3);
+                    flag();
                 }
         }
     });
@@ -208,7 +224,7 @@ router.post('/statusAutonatic' , (req, res) =>{
         var data =  JSON.parse(JSON.stringify(result));
         var avg = data[0].avg;
         avg = avg.toFixed();
-        console.log(avg)   
+        //console.log(avg)   
         if (err) throw err;
         var sql = "UPDATE auto_sleep SET t0 = ?";
         connection.query(sql, avg, function (err, result) {
@@ -221,7 +237,7 @@ router.post('/statusAutonatic' , (req, res) =>{
         var data =  JSON.parse(JSON.stringify(result));
         var avg = data[0].avg;
         avg = avg.toFixed();
-        console.log(avg)   
+        //console.log(avg)   
         if (err) throw err;
         var sql = "UPDATE auto_sleep SET t1 = ?";
         connection.query(sql, avg, function (err, result) {
@@ -234,7 +250,7 @@ router.post('/statusAutonatic' , (req, res) =>{
         var data =  JSON.parse(JSON.stringify(result));
         var avg = data[0].avg;
         avg = avg.toFixed();
-        console.log(avg)   
+        //console.log(avg)   
         if (err) throw err;
         var sql = "UPDATE auto_sleep SET t2 = ?";
         connection.query(sql, avg, function (err, result) {
@@ -247,7 +263,7 @@ router.post('/statusAutonatic' , (req, res) =>{
         var data =  JSON.parse(JSON.stringify(result));
         var avg = data[0].avg;
         avg = avg.toFixed();
-        console.log(avg)   
+        //console.log(avg)   
         if (err) throw err;
         var sql = "UPDATE auto_sleep SET t3 = ?";
         connection.query(sql, avg, function (err, result) {
@@ -270,6 +286,18 @@ router.post('/statusAutonatic' , (req, res) =>{
                 // MQTT
             });
             var sql = "UPDATE auto_sleep SET tmax = 1";
+            connection.query(sql, function (err, result) {
+            });
+            var sql = "UPDATE auto_sleep SET flag_1 = 1";
+            connection.query(sql, function (err, result) {
+            });
+            var sql = "UPDATE auto_sleep SET flag_2 = 1";
+            connection.query(sql, function (err, result) {
+            });
+            var sql = "UPDATE auto_sleep SET flag_3 = 1";
+            connection.query(sql, function (err, result) {
+            });
+            var sql = "UPDATE auto_sleep SET flag_4 = 1";
             connection.query(sql, function (err, result) {
             });
         }
@@ -330,6 +358,37 @@ router.post('/setParamsAutomatic' , (req, res) =>{
                 status: 'oke'
             }));
         }); 
+})
+
+router.post('/getData', (req, res) => {
+    var sql = 'SELECT * FROM air_conditioner_data';
+    //console.log(req.body);
+    connection.query(sql,function (err, result) {
+        var data =  JSON.parse(JSON.stringify(result));
+        var status = data[0].operation_status;
+        var temp = data[0].temperature_value;
+        //console.log(status);
+        if (status == "ON"){
+                res.send( JSON.stringify({
+                    operation_status:'ON',
+                    temperature_value: temp,
+                    operation_mode: data[0].operation_mode,
+                    flow: data[0].air_flow_rate,
+                    power: data[0].power_saving,
+                    direction: data[0].direction_vertical
+                }));
+        }
+        else{
+            res.send(JSON.stringify({
+                operation_status:'OFF',
+                temperature_value: temp,
+                operation_mode: data[0].operation_mode,
+                flow: data[0].air_flow_rate,
+                power: data[0].power_saving,
+                direction: data[0].direction_vertical
+            }));
+        }
+    });
 })
 
 router.post('/changeStatus', (req, res) => {
@@ -593,8 +652,7 @@ router.post('/changePowerSaving', (req, res) => {
     connection.query(sql,function (err, result) {
         var data =  JSON.parse(JSON.stringify(result));
         var power_saving = data[0].power_saving;
-        //console.log(status);
-        if (power_saving == "PowerSaving"){
+        if (power_saving == "Power"){
             var sql = "UPDATE air_conditioner_data SET power_saving ='Normal'";
             connection.query(sql, function (err, result) {
                 console.log("PowerSaving -> Normal");
@@ -609,11 +667,11 @@ router.post('/changePowerSaving', (req, res) => {
             })
         }
         else if (power_saving == "Normal"){
-            var sql = "UPDATE air_conditioner_data SET power_saving ='PowerSaving'";
+            var sql = "UPDATE air_conditioner_data SET power_saving ='Power'";
             connection.query(sql, function (err, result) {
                 console.log("Normal ->> PowerSaving");
                 res.send(JSON.stringify({
-                    power_saving: 'Power Saving'
+                    power_saving: 'Power'
                 }));
             });
             client.publish(topic, 'Power', { qos: 0, retain: false }, (error) => {
@@ -672,6 +730,34 @@ router.post('/changeDirection_vertical', (req, res) => {
                   console.error(error)
                 }
             })
+        }
+    });
+})
+
+router.post('/getDataAuto', (req, res) => {
+    var sql = 'SELECT * FROM auto_sleep';
+    //console.log(req.body);
+    connection.query(sql,function (err, result) {
+        var data =  JSON.parse(JSON.stringify(result));
+        var status = data[0].modeAutoSleep;
+        //console.log(status);
+        if (status == "ON"){
+                res.send( JSON.stringify({
+                    operation_status:'ON',
+                    t0: data[0].t0,
+                    t1: data[0].t1,
+                    t2: data[0].t2,
+                    t3: data[0].t3
+                }));
+        }
+        else{
+            res.send(JSON.stringify({
+                operation_status:'OFF',
+                t0: data[0].t0,
+                t1: data[0].t1,
+                t2: data[0].t2,
+                t3: data[0].t3
+            }));
         }
     });
 })

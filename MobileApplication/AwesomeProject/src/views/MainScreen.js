@@ -1,4 +1,4 @@
-import react, {Component, useState, useContext} from "react";
+import react, {Component, useState, useContext, useEffect} from "react";
 import {
     SafeAreaView,
     View,
@@ -26,12 +26,37 @@ const windowHeight = Dimensions.get('window').height;
 export default HomeScreen = ({ navigation }) => {
     const [status, setStatus] = useState('OFF');
     const [booleanStatus, setBoleanStatus] = useState('OFF');
-    const [temp, setTemp] = useState('25');
+    const [temp, setTemp] = useState("0");
     const [mode, setMode] = useState('DRY');
     const [flow, setFlow] = useState('HIGH');
     const [powerSaving, setPowerSaving] = useState('Power Saving');
     const [direction, setSetDirection] = useState('UP');
     const {dataChart} = useContext(AuthContext);
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        getData();
+      }, 1);
+      return () => clearInterval(interval);
+    }, []);
+
+    const getData = () => {
+      axios
+      .post(`${BASE_URL}/remote/getData`)
+      .then(res => {
+        //console.log(res.data);
+        var data =  JSON.parse(JSON.stringify(res.data));
+        setStatus(data['operation_status']);
+        setTemp(data['temperature_value']);
+        setMode(data['operation_mode']);
+        setFlow(data['flow']);
+        setPowerSaving(data['power']);
+        setSetDirection(data['direction']);
+      })
+      .catch(e => {
+        console.log(`change status error ${e}`);
+      }); 
+  };
 
     const changeStatus = () => {
         axios
@@ -265,9 +290,10 @@ export default HomeScreen = ({ navigation }) => {
                                                     changeStatus();
                                                     setBoleanStatus(!booleanStatus)
                                                 }}>
-                                                {booleanStatus ?  
-                                                    <Image source={require('../img/powrt_on.png')}/> :
-                                                    <Image source={require('../img/power.png')} /> 
+                                                {booleanStatus ?
+                                                      
+                                                    <Image source={require('../img/power.png')} />:
+                                                    <Image source={require('../img/powrt_on.png')}/>
                                                 }
                                 <Text style={{color: '#000', fontWeight: 'bold', fontSize: 25, fontFamily:"Cochin", marginTop:4}}>{status}</Text>
                             </TouchableOpacity>
@@ -289,7 +315,7 @@ export default HomeScreen = ({ navigation }) => {
                                    justifyContent: 'center',
                                    left:65,
                                 }}>
-                            <TouchableOpacity style={{height: '370%', width: '25%', marginTop: 0, 
+                            <TouchableOpacity style={{height: '330%', width: '25%', marginTop: 0, 
                                                       marginRight:100, marginLeft:55, alignItems: 'center', 
                                                       justifyContent: 'center', borderWidth:1, borderRadius: 18, backgroundColor:"white"}}
                                         onPress = {() => {
@@ -297,7 +323,7 @@ export default HomeScreen = ({ navigation }) => {
                                         }}
                                         >
                                         <Text style={{color: '#327DFA', fontWeight: 'bold', 
-                                                      fontSize: 20, fontFamily:"Cochin", marginTop:-8}}>{powerSaving}</Text>
+                                                      fontSize: 22, fontFamily:"Cochin", marginTop:-8}}>{powerSaving}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity  style={{height: '370%', width: '25%', marginTop: 25, 
                                                       marginRight:55, marginLeft:-42, alignItems: 'center', 

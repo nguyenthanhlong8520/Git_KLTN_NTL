@@ -1,4 +1,4 @@
-import react, {Component, useState, useContext} from "react";
+import react, {Component, useState, useContext, useEffect} from "react";
 import {
     SafeAreaView,
     View,
@@ -43,13 +43,31 @@ export default Setting = ({ navigation }) => {
     const {dataChart, t0, tmax, t1, t2, t3} = useContext(AuthContext);
     // const [time, setTime] = useState(null);
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+          getData();
+        }, 1);
+        return () => clearInterval(interval);
+    }, []);
+  
+    const getData = () => {
+        axios
+        .post(`${BASE_URL}/remote/getDataAuto`)
+        .then(res => {
+          //console.log(res.data);
+          var data =  JSON.parse(JSON.stringify(res.data));
+          setStatus(data['operation_status']);
+        })
+        .catch(e => {
+          console.log(`change status error ${e}`);
+        }); 
+    };
+
     const statusSleepMode = () => {
         axios
         .post(`${BASE_URL}/remote/statusAutonatic`)
         .then(res => {
           console.log(res.data);
-          var milliseconds = (new Date()).getMilliseconds();
-          console.log(milliseconds);
           var data =  JSON.parse(JSON.stringify(res.data));
           //var temp = res.data[0].temperature_value;
           //console.log(data.temperature_value);
