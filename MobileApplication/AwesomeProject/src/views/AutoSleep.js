@@ -46,7 +46,7 @@ export default Setting = ({ navigation }) => {
     useEffect(() => {
         const interval = setInterval(() => {
           getData();
-        }, 1);
+        }, 1000);
         return () => clearInterval(interval);
     }, []);
   
@@ -59,7 +59,7 @@ export default Setting = ({ navigation }) => {
           setStatus(data['operation_status']);
         })
         .catch(e => {
-          console.log(`change status error ${e}`);
+          //console.log(`change status error ${e}`);
         }); 
     };
 
@@ -88,8 +88,7 @@ export default Setting = ({ navigation }) => {
           .then(res => {
             var data =  JSON.parse(JSON.stringify(res.data));
             //setUserName(userInfo.result[0].email);
-            console.log(data)
-            
+            //console.log(data)
           })
           .catch(e => {
             console.log(`error ${e}`);

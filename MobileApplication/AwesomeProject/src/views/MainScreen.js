@@ -33,13 +33,6 @@ export default HomeScreen = ({ navigation }) => {
     const [direction, setSetDirection] = useState('UP');
     const {dataChart} = useContext(AuthContext);
 
-    useEffect(() => {
-      const interval = setInterval(() => {
-        getData();
-      }, 1);
-      return () => clearInterval(interval);
-    }, []);
-
     const getData = () => {
       axios
       .post(`${BASE_URL}/remote/getData`)
@@ -54,7 +47,7 @@ export default HomeScreen = ({ navigation }) => {
         setSetDirection(data['direction']);
       })
       .catch(e => {
-        console.log(`change status error ${e}`);
+        //console.log(`change status error ${e}`);
       }); 
   };
 
@@ -72,7 +65,7 @@ export default HomeScreen = ({ navigation }) => {
           console.log(milliseconds);
         })
         .catch(e => {
-          console.log(`change status error ${e}`);
+          //console.log(`change status error ${e}`);
         }); 
     };
 
@@ -83,8 +76,6 @@ export default HomeScreen = ({ navigation }) => {
           var data =  JSON.parse(JSON.stringify(res.data));
           var temp_value = data['temp_value'];
           setTemp(temp_value)
-          var milliseconds = (new Date()).getMilliseconds();
-          console.log(milliseconds);
         })
         .catch(e => {
           console.log(`increase error ${e}`);
@@ -99,8 +90,6 @@ export default HomeScreen = ({ navigation }) => {
           var data =  JSON.parse(JSON.stringify(res.data));
           var temp_value = data['temp_value'];
           setTemp(temp_value)
-          var milliseconds = (new Date()).getMilliseconds();
-          console.log(milliseconds);
         })
         .catch(e => {
           console.log(`decrease error ${e}`);
@@ -148,8 +137,6 @@ export default HomeScreen = ({ navigation }) => {
           var data =  JSON.parse(JSON.stringify(res.data));
           var power_saving = data['power_saving'];
           setPowerSaving(power_saving)
-          var milliseconds = (new Date()).getMilliseconds();
-          console.log(milliseconds);
         })
         .catch(e => {
           console.log(`change power saving error ${e}`);
@@ -164,13 +151,19 @@ export default HomeScreen = ({ navigation }) => {
           var data =  JSON.parse(JSON.stringify(res.data));
           var direction = data['direction'];
           setSetDirection(direction)
-          var milliseconds = (new Date()).getMilliseconds();
-          console.log(milliseconds);
         })
         .catch(e => {
           console.log(`change direction error ${e}`);
         }); 
     };
+
+    
+    useEffect(() => {
+      const interval = setInterval(() => {
+        getData();
+      }, 1000);
+      return () => clearInterval(interval);
+    }, []);
 
     return (
         <ImageBackground style = {{height: '100%', width:'100%'}} source={require('../img/bg1.jpg')} resizeMode='stretch'>
@@ -279,7 +272,7 @@ export default HomeScreen = ({ navigation }) => {
                                             increaseTemp();
                                         }}
                                         >
-                                        <Text style={{color: '#000', fontWeight: 'bold', 
+                                        <Text style={{color: '#327DFA', fontWeight: 'bold', 
                                                       fontSize: 32, fontFamily:"Cochin", marginTop:-8}}>+</Text>
                             </TouchableOpacity>
                             <TouchableOpacity  style={{height: '370%', width: '25%', marginTop: 25, 
@@ -290,10 +283,9 @@ export default HomeScreen = ({ navigation }) => {
                                                     changeStatus();
                                                     setBoleanStatus(!booleanStatus)
                                                 }}>
-                                                {booleanStatus ?
-                                                      
-                                                    <Image source={require('../img/power.png')} />:
-                                                    <Image source={require('../img/powrt_on.png')}/>
+                                                {booleanStatus ?                                                      
+                                                    <Image source={require('../img/powrt_on.png')} />:
+                                                    <Image source={require('../img/power.png')}/>
                                                 }
                                 <Text style={{color: '#000', fontWeight: 'bold', fontSize: 25, fontFamily:"Cochin", marginTop:4}}>{status}</Text>
                             </TouchableOpacity>
@@ -304,7 +296,7 @@ export default HomeScreen = ({ navigation }) => {
                                             decreaseTemp();
                                         }}
                                         >
-                                        <Text style={{color: '#000', fontWeight: 'bold', fontSize: 32, fontFamily:"Cochin", marginTop:-8}}>-</Text>
+                                        <Text style={{color: '#327DFA', fontWeight: 'bold', fontSize: 32, fontFamily:"Cochin", marginTop:-8}}>-</Text>
                             </TouchableOpacity>  
                     </View>
                     <View style={{ width:'75%', 

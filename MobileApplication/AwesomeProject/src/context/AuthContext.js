@@ -31,7 +31,6 @@ export const AuthProvider = ({children, navigation}) => {
             console.log(userInfo);
           })
           .catch(e => {
-            console.log("Error cmnr");
             console.log(`register error ${e}`);
           });
       };
@@ -44,15 +43,19 @@ export const AuthProvider = ({children, navigation}) => {
             password,
           })
           .then(res => {
-            let userInfo = res.data;
-            setUserName(userInfo.result[0].email);
-            // console.log(userInfo);
-            console.log(userName);
-            setUserInfo(userInfo);
-            AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+            try{
+              let userInfo = res.data;
+              setUserName(userInfo.result[0].email);
+              // console.log(userInfo);
+              //console.log(userName);
+              setUserInfo(userInfo);
+              AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+            }catch{
+              alert("Invalid Username or Password !");
+            }
           })
           .catch(e => {
-            console.log(`login error ${e}`);
+            //console.log(`login error ${e}`);
           });
       };
 
@@ -72,7 +75,7 @@ export const AuthProvider = ({children, navigation}) => {
             //setIsLoading(false);
           })
           .catch(e => {
-            console.log(`logout error ${e}`);
+            //console.log(`logout error ${e}`);
             //setIsLoading(false);
           });
       };
@@ -89,8 +92,7 @@ export const AuthProvider = ({children, navigation}) => {
           setT1(data['t1']);
           setT2(data['t2']);
           setT3(data['t3']);
-
-          console.log(t0 + " " + tmax + " " + t1 + " " +  t2 + " " + t3 + " " );
+          //console.log(t0 + " " + tmax + " " + t1 + " " +  t2 + " " + t3 + " " );
         })
         .catch(e => {
           console.log(`error ${e}`);

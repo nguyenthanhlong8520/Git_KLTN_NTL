@@ -41,14 +41,14 @@ export default App = ({navigation}) =>{
   const [cTime, setcTime] = useState(time);
   const [cDate, setDate]  = useState(date);
 
-  const updateTime = () => {
-    time = new Date().toLocaleTimeString();
-    date = new Date().toLocaleDateString();
-    setcTime(time);
-    setDate(date);
-  }
+  // const updateTime = () => {
+  //   time = new Date().toLocaleTimeString();
+  //   date = new Date().toLocaleDateString();
+  //   setcTime(time);
+  //   setDate(date);
+  // }
 
-  setInterval(updateTime, 1000);
+  // setInterval(updateTime, 1000);
 
   return (
     <SafeAreaView style={styles.container}>

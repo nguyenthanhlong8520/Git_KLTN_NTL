@@ -65,11 +65,7 @@ function temperature_phase(value)
             var sql_ = 'UPDATE data_auto SET temp_3 = "' + flagg + '" where id = 82';
             connection.query(sql_, function (err, result) {
                 if (err) throw err;
-            });   
-            // var sql_ = 'UPDATE auto_sleep SET t3 = "' + x + '" where id = 1';
-            // connection.query(sql_, function (err, result) {
-            //     if (err) throw err;
-            // });   
+            });     
         }
     });
 }
@@ -137,6 +133,11 @@ const myFunc = () => {
                     var sql_ = "UPDATE auto_sleep SET flag_1 = 0";
                     connection.query(sql_, function (err, result) {
                     });
+
+                    var sql_ = 'UPDATE air_conditioner_data SET temperature_value = ' + data[0].t0 + '';
+                    connection.query(sql_, function (err, result) {
+                        if (err) throw err;
+                    });  
                 }
                 else if (data[0].time_1 < timeNow && data[0].time_2 > timeNow && data[0].flag_2 == 1){
                     // to do
@@ -155,7 +156,12 @@ const myFunc = () => {
 
                     var sql_ = "UPDATE auto_sleep SET flag_2 = 0";
                     connection.query(sql_, function (err, result) {
-                    });                   
+                    });   
+                    
+                    var sql_ = 'UPDATE air_conditioner_data SET temperature_value = ' + data[0].t1 + '';
+                    connection.query(sql_, function (err, result) {
+                        if (err) throw err;
+                    });  
                 }
                 else if (data[0].time_2 < timeNow && data[0].time_3 > timeNow && data[0].flag_3 == 1){
                     // to do
@@ -174,6 +180,10 @@ const myFunc = () => {
                     var sql_ = "UPDATE auto_sleep SET flag_3 = 0";
                     connection.query(sql_, function (err, result) {
                     });
+                    var sql_ = 'UPDATE air_conditioner_data SET temperature_value = ' + data[0].t2 + '';
+                    connection.query(sql_, function (err, result) {
+                        if (err) throw err;
+                    }); 
                 }
                 else if (data[0].time_3 < timeNow && data[0].time_4 > timeNow && data[0].flag_4 == 1){
                     // todo 
@@ -187,6 +197,10 @@ const myFunc = () => {
                     var sql_ = "UPDATE auto_sleep SET flag_4 = 0";
                     connection.query(sql_, function (err, result) {
                     });
+                    var sql_ = 'UPDATE air_conditioner_data SET temperature_value = ' + data[0].t3 + '';
+                    connection.query(sql_, function (err, result) {
+                        if (err) throw err;
+                    }); 
                 }
                 else if (data[0].time_4 < timeNow){
                     temperature_phase(3);
